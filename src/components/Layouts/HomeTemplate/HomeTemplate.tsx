@@ -1,12 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Footer from "../../Organisms/Footer";
+import Header from "../../Organisms/Header";
+import HomeCarousel from "../../Organisms/HomeCarousel";
 
 const HomeTemplate = () => {
   return (
     <div>
-      <header>header</header>
+      <Header />
+      <HomeCarousel />
       <Outlet />
-      <footer>footer</footer>
+      <Footer />
     </div>
   );
 };

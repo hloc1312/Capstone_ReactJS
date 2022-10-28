@@ -1,7 +1,9 @@
 import React from "react";
-import { useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
 import HomeTemplate from "../components/Layouts/HomeTemplate/HomeTemplate";
+import Contact from "../pages/Contact/Contact";
 import Home from "../pages/Home/Home";
+import News from "../pages/News/News";
 
 const Routers = () => {
   const routing = useRoutes([
@@ -11,7 +13,19 @@ const Routers = () => {
       children: [
         {
           path: "/",
+          element: <Navigate to={"/home"} />,
+        },
+        {
+          path: "home",
           element: <Home />,
+        },
+        {
+          path: "contact",
+          element: <Contact />,
+        },
+        {
+          path: "news",
+          element: <News />,
         },
       ],
     },
