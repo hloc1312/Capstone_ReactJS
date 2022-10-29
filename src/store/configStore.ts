@@ -1,9 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import thunk from "redux-thunk";
-import { carouselReducer } from "./quanLyPhim";
+import { carouselReducer, quanLyPhimReducer } from "./quanLyPhim";
 const rootReducers = combineReducers({
   carouselReducer,
+  quanLyPhimReducer,
 });
 
 export const store = configureStore({

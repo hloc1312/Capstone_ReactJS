@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
 import { quanLyPhimService } from "../../services/quanLyPhimService";
-import { Error } from "../../types/error";
-import { Banner } from "../../types/quanLyPhim";
+import { Banner } from "../../types/quanLyPhimTypes";
 
 interface InitialState {
   listBanner?: Banner[];
@@ -49,7 +47,7 @@ export const getListBanner = createAsyncThunk(
   async (data, { dispatch, getState, rejectWithValue }) => {
     try {
       const result = await quanLyPhimService.getListBanner();
-      console.log(result);
+      // console.log(result);
       return result.data.content;
     } catch (error: any) {
       //   if (error instanceof AxiosError) {
