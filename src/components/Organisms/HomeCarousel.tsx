@@ -1,36 +1,56 @@
 import { Carousel } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AppDispatch,
+  RootState,
+  store,
+  useAppDispath,
+} from "../../store/configStore";
+import { getListBanner } from "../../store/quanLyPhim";
 
 const HomeCarousel: React.FC = () => {
   const contentStyle: React.CSSProperties = {
-    height: "400px",
+    height: "600px",
     color: "#fff",
     lineHeight: "160px",
     textAlign: "center",
-    background: "#364d79",
+    backgroundColor: "#364d79",
+  };
+  const { listBanner } = useSelector(
+    (state: RootState) => state.carouselReducer
+  );
+  const dispatch = useAppDispath();
+  // console.log(getListBanner);
+  useEffect(() => {
+    dispatch(getListBanner());
+  }, []);
+  const renderCarousel = () => {
+    return listBanner?.map((item) => {
+      return (
+        <div key={item.maBanner}>
+          <div
+            style={{
+              ...contentStyle,
+              background: `url(${item.hinhAnh})`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundSize: "100%",
+            }}
+          >
+            <img
+              src={item.hinhAnh}
+              alt={item.hinhAnh}
+              className="w-full opacity-0"
+            />
+          </div>
+        </div>
+      );
+    });
   };
   return (
     <Carousel autoplay className="relative z-0">
-      <div>
-        <div style={contentStyle}>
-          <img src="https://picsum.photos/1000" alt="..." className="w-full" />
-        </div>
-      </div>
-      <div>
-        <div style={contentStyle}>
-          <img src="https://picsum.photos/1000" alt="..." className="w-full" />
-        </div>
-      </div>
-      <div>
-        <div style={contentStyle}>
-          <img src="https://picsum.photos/1000" alt="..." className="w-full" />
-        </div>
-      </div>
-      <div>
-        <div style={contentStyle}>
-          <img src="https://picsum.photos/1000" alt="..." className="w-full" />
-        </div>
-      </div>
+      {renderCarousel()}
     </Carousel>
   );
 };
