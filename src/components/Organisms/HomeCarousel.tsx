@@ -8,6 +8,7 @@ import {
   useAppDispath,
 } from "../../store/configStore";
 import { getListBanner } from "../../store/quanLyPhim";
+import "./HomeCarousel.css";
 
 const HomeCarousel: React.FC = () => {
   const contentStyle: React.CSSProperties = {

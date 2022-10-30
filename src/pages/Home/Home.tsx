@@ -1,27 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import CardFilm from "../../components/Molecules/CardFilm";
 import MultipleRowSlick from "../../components/Organisms/MultipleRowSlick";
-import { RootState } from "../../store/configStore";
+import { RootState, useAppDispath } from "../../store/configStore";
+import { getListMovie } from "../../store/quanLyPhim";
 import HomeMenu from "./HomeMenu/HomeMenu";
 
 const Home = () => {
   const { listMovie } = useSelector(
     (state: RootState) => state.quanLyPhimReducer
   );
+  const dispatch = useAppDispath();
+  useEffect(() => {
+    dispatch(getListMovie());
+  }, []);
 
-  const renderPhim = () => {
-    return listMovie.map((item) => {
-      return <CardFilm key={item.maPhim} />;
-    });
-  };
   return (
-    <div className="container mx-auto">
-      <MultipleRowSlick />
+    <div>
       {/* Start Home item */}
       <section className="text-gray-600 body-font">
-        <div className="container py-24 mx-auto">
-          <div className="flex flex-wrap -m-4">{renderPhim()}</div>
+        <div className="container px-5 py-24 mx-auto">
+          <MultipleRowSlick listMovie={listMovie} />
         </div>
       </section>
 

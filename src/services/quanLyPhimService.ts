@@ -8,7 +8,7 @@ export const quanLyPhimService = {
 
   getListMovie: () => {
     return api.get<HttpResponse<Phim[]>>(
-      "/QuanLyPhim/LayDanhSachPhim?maNhom=GP01"
+      "/QuanLyPhim/LayDanhSachPhim?maNhom=GP13"
     );
   },
 };
