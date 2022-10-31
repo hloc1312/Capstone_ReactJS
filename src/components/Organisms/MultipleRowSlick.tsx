@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import { Phim } from "../../types/quanLyPhimTypes";
 import CardFilm from "../Molecules/CardFilm";
+import CardFilm_Hover from "../Molecules/CardFilm_Hover";
 import styleSlick from "./MultipleRowSlick.module.css";
 
 type ChilProps = React.HTMLAttributes<HTMLDivElement> & {
@@ -10,10 +11,11 @@ type ChilProps = React.HTMLAttributes<HTMLDivElement> & {
 
 const MultipleRowSlick: React.FC<ChilProps> = ({ listMovie }) => {
   const renderPhim = () => {
-    return listMovie.map((item) => {
+    return listMovie.slice(0, 12).map((item) => {
       return (
-        <div key={item.maPhim} className={`${styleSlick["width-item"]}`}>
-          <CardFilm phim={item} />
+        <div key={item.maPhim} className="mt-2">
+          {/* <CardFilm phim={item} /> */}
+          <CardFilm_Hover phim={item} />
         </div>
       );
     });
@@ -48,7 +50,7 @@ const MultipleRowSlick: React.FC<ChilProps> = ({ listMovie }) => {
     centerPadding: "60px",
     slidesToShow: 2,
     speed: 500,
-    rows: 1,
+    rows: 2,
     slidesPerRow: 2,
     variableWidth: true,
     nextArrow: <SampleNextArrow />,
