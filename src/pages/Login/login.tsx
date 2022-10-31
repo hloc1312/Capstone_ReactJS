@@ -1,39 +1,41 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { quanLyNguoiDungAction } from '../../redux/actions/quanLyNguoiDungAction';
+import { RootState } from '../../store/configStore';
+import { AppDispatch } from '../../redux/configStore';
+import { useDispatch,useSelector } from 'react-redux';
+// import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
 
 const Login = () => {
 
   const dispatch = useDispatch()
 
-  const { userLogin } = useSelector(state => state.quanLyNguoiDungReducer)
+  const { userLogin } = useSelector((state:RootState) => state.quanLyNguoiDungReducer
+  );
   console.log("userLogin: ", userLogin);
-
   const formik = useFormik({
     initialValues: {
       taiKhoan: '',
       matKhau: '',
     },
     onSubmit: (values: any) => {
-
       const action = quanLyNguoiDungAction.dangNhapAction(values)
-      dispatch(action)
+      dispatch<any>(action)
 
       console.log("values: ", values);
     },
   });
 
   return (
-    // Nguồn: codepen.io
     <form onSubmit={
       formik.handleSubmit
     } className="lg:w-1/2 xl:max-w-screen-sm">
       <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">
         <div className="cursor-pointer flex items-center">
           <div>
-            <svg className="w-10 text-indigo-500" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 225 225" style={{ enableBackground:'new 0 0 225 225' }} xmlSpace="preserve">
+            <svg className="w-10 text-indigo-500" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 225 225"  xmlSpace="preserve">
+              
               <style type="text/css" dangerouslySetInnerHTML={{ __html: "\n                                    .st0{fill:none;stroke:currentColor;stroke-width:20;stroke-linecap:round;stroke-miterlimit:3;}\n                                " }} />
               <g transform="matrix( 1, 0, 0, 1, 0,0) ">
                 <g>

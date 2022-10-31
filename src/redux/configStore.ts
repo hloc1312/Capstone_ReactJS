@@ -2,7 +2,7 @@ import { combineReducers, configureStore, getDefaultMiddleware, } from "@reduxjs
 import { type } from "os";
 import { useDispatch } from "react-redux";
 import thunk from "redux-thunk";
-import { quanLyNguoiDungReducer } from "../redux/reducers/quanLyNguoiDungReducer";
+import { quanLyNguoiDungReducer } from "./reducers/quanLyNguoiDungReducer";
 
 const rootReducer=combineReducers({
     quanLyNguoiDungReducer,

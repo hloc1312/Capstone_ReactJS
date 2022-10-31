@@ -1,4 +1,4 @@
-import { TOKEN, USER_LOGIN } from "../../util/settings/config"
+import { TOKEN, USER_LOGIN } from "../../utils/config"
 import { DANG_NHAP_ACTION, SET_THONG_TIN_NGUOI_DUNG } from "../actions/types/quanLyNguoiDungType"
 
 let user = {};
