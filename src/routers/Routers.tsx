@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from "react-router-dom";
 import HomeTemplate from "../components/Layouts/HomeTemplate/HomeTemplate";
 import Contact from "../pages/Contact/Contact";
 import Home from "../pages/Home/Home";
+import Login from "../pages/Login/Login";
 import News from "../pages/News/News";
 
 const Routers = () => {
@@ -26,6 +27,10 @@ const Routers = () => {
         {
           path: "news",
           element: <News />,
+        },
+        {
+          path: "login",
+          element: <Login />,
         },
       ],
     },
