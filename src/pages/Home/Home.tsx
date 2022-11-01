@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import ModalTrailerFilm from "../../components/Organisms/ModalTrailerFilm";
 import MultipleRowSlick from "../../components/Organisms/MultipleRowSlick";
 import { RootState, useAppDispath } from "../../store/configStore";
 import { getListMovie } from "../../store/quanLyPhim";
@@ -10,6 +9,7 @@ const Home = () => {
   const { listMovie } = useSelector(
     (state: RootState) => state.quanLyPhimReducer
   );
+  console.log(listMovie);
   const dispatch = useAppDispath();
   useEffect(() => {
     dispatch(getListMovie());
@@ -17,7 +17,6 @@ const Home = () => {
 
   return (
     <div>
-      <ModalTrailerFilm />
       {/* Start Home item */}
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">

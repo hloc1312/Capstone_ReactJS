@@ -25,8 +25,6 @@ const ModalTrailerFilm: React.FC<ChilProps> = ({ phimTrailer }) => {
     setIsPause((state) => (state = false));
   };
 
-  console.log("pause", isPause);
-
   return (
     <>
       <button className="px-2 py-1 rounded-sm" onClick={showModal}>
