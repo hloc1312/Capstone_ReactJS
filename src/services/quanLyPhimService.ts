@@ -1,5 +1,6 @@
 import { api } from "../constants/api";
 import { Banner, Phim } from "../types/quanLyPhimTypes";
+import { GROUPID } from "../utils/config";
 
 export const quanLyPhimService = {
   getListBanner: () => {
@@ -8,7 +9,7 @@ export const quanLyPhimService = {
 
   getListMovie: () => {
     return api.get<HttpResponse<Phim[]>>(
-      "/QuanLyPhim/LayDanhSachPhim?maNhom=GP13"
+      `/QuanLyPhim/LayDanhSachPhim?maNhom=${GROUPID}`
     );
   },
 };

@@ -1,13 +1,13 @@
 import { Button, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { Phim } from "../../types/quanLyPhimTypes";
-import "../Molecules/CardFlim_Hover.css";
+import { Phim } from "../../../types/quanLyPhimTypes";
+import "../../Molecules/CardFlim_Hover.css";
 
 type ChilProps = React.HTMLAttributes<HTMLDivElement> & {
   phimTrailer?: Phim;
 };
-const ModalTrailerFilm: React.FC<ChilProps> = ({ phimTrailer }) => {
+export const ModalTrailerFilm: React.FC<ChilProps> = ({ phimTrailer }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPause, setIsPause] = useState(false);
 
@@ -27,15 +27,20 @@ const ModalTrailerFilm: React.FC<ChilProps> = ({ phimTrailer }) => {
 
   return (
     <>
-      <button className="px-2 py-1 rounded-sm" onClick={showModal}>
-        <i className="fab fa-youtube mr-1 capitalize" />
-        Trailer Phim
-      </button>
+      <div>
+        <button
+          className="px-2 py-1 rounded-sm !w-full block mb-2"
+          onClick={showModal}
+        >
+          <i className="fab fa-youtube mr-1 capitalize" />
+          Trailer Phim
+        </button>
+      </div>
       <Modal
         title={
           <span className="text-red-500">
             <i className="fab fa-youtube mr-1 capitalize" />
-            Trailer Phim
+            Trailer Phim ({phimTrailer?.tenPhim})
           </span>
         }
         open={isModalOpen}

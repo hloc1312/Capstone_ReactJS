@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-const Header = () => {
+export const Header = () => {
   const navigate = useNavigate();
   return (
-    <header className="p-4 dark:bg-gray-800 dark:text-gray-100 bg-opacity-40 bg-black fixed w-full text-white z-10">
+    <header className="Header p-4 dark:bg-gray-800 dark:text-gray-100 bg-opacity-40 bg-black fixed w-full text-white z-10">
       <div className="container flex justify-between h-16 mx-auto">
         <NavLink
           rel="noopener noreferrer"

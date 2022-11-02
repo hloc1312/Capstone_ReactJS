@@ -1,45 +1,102 @@
-import React from "react";
+import React, { Fragment, memo } from "react";
 import type { RadioChangeEvent } from "antd";
 import { Radio, Space, Tabs } from "antd";
 import { useState } from "react";
+import { LichChieuHeThongRap } from "../../../types/quanLyRapType";
+import { NavLink } from "react-router-dom";
+import moment from "moment";
+import noImages from "../../../assets/noImages.jpg";
+
+type ChilProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
+  heThongRapChieu: LichChieuHeThongRap[];
+};
 
 type TabPosition = "left" | "right" | "top" | "bottom";
-const HomeMenu: React.FC = () => {
+const HomeMenu: React.FC<ChilProps> = ({ heThongRapChieu }) => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
 
-  const changeTabPosition = (e: RadioChangeEvent) => {
-    setTabPosition(e.target.value);
+  const renderHeThongRap = () => {
+    return heThongRapChieu.map((item) => {
+      return {
+        label: (
+          <img
+            src={item.logo}
+            alt={item.tenHeThongRap}
+            className="rounded-full w-[50px]"
+          ></img>
+        ),
+        key: item.maHeThongRap,
+        // Load cụm rạp
+        children: (
+          <Tabs
+            tabPosition={tabPosition}
+            items={item.lstCumRap.map((cumRap) => {
+              return {
+                label: (
+                  <div className="w-[300px] flex">
+                    <img
+                      src={cumRap.hinhAnh}
+                      alt={cumRap.tenCumRap}
+                      className="w-[50px]"
+                    ></img>
+                    <div className="ml-2 text-left">
+                      <p className="mb-1">{cumRap.tenCumRap}</p>
+                      <p className="text-orange-300 mb-1">Xem chi tiết</p>
+                    </div>
+                  </div>
+                ),
+                key: cumRap.maCumRap,
+                // Load lịch chiếu phim tương ứng
+                children: cumRap.danhSachPhim?.slice(0, 5).map((dsPhim) => {
+                  return (
+                    <Fragment key={dsPhim.maPhim}>
+                      <div className="flex my-5">
+                        <img
+                          className="w-[100px] h-[100px]"
+                          src={dsPhim.hinhAnh}
+                          alt={dsPhim.tenPhim}
+                          onError={({ currentTarget }) => {
+                            currentTarget.onerror = null; // prevents looping
+                            currentTarget.src = noImages;
+                          }}
+                        />
+                        <div className="ml-2">
+                          <h1 className="text-2xl text-green-700">
+                            {dsPhim.tenPhim}
+                          </h1>
+                          <p>{cumRap.diaChi}</p>
+                          <div className="grid grid-cols-6 gap-8">
+                            {dsPhim.lstLichChieuTheoPhim.map((lichChieu) => {
+                              return (
+                                <NavLink
+                                  to={"/"}
+                                  className="text-[18px] text-green-400 hover:text-green-600"
+                                >
+                                  {moment(lichChieu.ngayChieuGioChieu).format(
+                                    "hh:mm A"
+                                  )}
+                                </NavLink>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                      <hr />
+                    </Fragment>
+                  );
+                }),
+              };
+            })}
+          />
+        ),
+      };
+    });
   };
   return (
     <>
-      <Space style={{ marginBottom: 24 }}>
-        Tab position:
-        <Radio.Group value={tabPosition} onChange={changeTabPosition}>
-          <Radio.Button value="top">top</Radio.Button>
-          <Radio.Button value="bottom">bottom</Radio.Button>
-          <Radio.Button value="left">left</Radio.Button>
-          <Radio.Button value="right">right</Radio.Button>
-        </Radio.Group>
-      </Space>
-      <Tabs
-        tabPosition={tabPosition}
-        items={new Array(3).fill(null).map((_, i) => {
-          const id = String(i + 1);
-          return {
-            label: (
-              <img
-                src="https://picsum.photos/200"
-                alt="..."
-                className="rounded-full w-[50px]"
-              ></img>
-            ),
-            key: id,
-            children: `Content of Tab ${id}`,
-          };
-        })}
-      />
+      <Tabs tabPosition={tabPosition} items={renderHeThongRap()} />
     </>
   );
 };
 
-export default HomeMenu;
+export default memo(HomeMenu);

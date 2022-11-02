@@ -1,18 +1,36 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import MultipleRowSlick from "../../components/Organisms/MultipleRowSlick";
+import { useSearchParams } from "react-router-dom";
+import MultipleRowSlick from "../../components/Organisms/MultipleRowSlick/MultipleRowSlick";
 import { RootState, useAppDispath } from "../../store/configStore";
 import { getListMovie } from "../../store/quanLyPhim";
+import { getListHeThongRapChieu } from "../../store/quanLyRap";
 import HomeMenu from "./HomeMenu/HomeMenu";
 
 const Home = () => {
   const { listMovie } = useSelector(
     (state: RootState) => state.quanLyPhimReducer
   );
-  console.log(listMovie);
+
+  const { heThongRapChieu } = useSelector((state: RootState) => {
+    return state.quanLyRapReducer;
+  });
+  const [searchParams, setSearchParams] = useSearchParams({
+    isShowing: "true",
+  });
+
+  console.log(searchParams.get("isShowing"));
+
+  const phimSapChieu = () => {
+    setSearchParams({ isShowing: "true" });
+  };
+  const phimDangChieu = () => {
+    setSearchParams({ isShowing: "false" });
+  };
   const dispatch = useAppDispath();
   useEffect(() => {
     dispatch(getListMovie());
+    dispatch(getListHeThongRapChieu());
   }, []);
 
   return (
@@ -20,13 +38,18 @@ const Home = () => {
       {/* Start Home item */}
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
-          <MultipleRowSlick listMovie={listMovie} />
+          <MultipleRowSlick
+            listMovie={listMovie}
+            phimSapChieu={phimSapChieu}
+            phimDangChieu={phimDangChieu}
+            isShowing={searchParams.get("isShowing") || ""}
+          />
         </div>
       </section>
 
       {/* End Home Item */}
 
-      <HomeMenu />
+      <HomeMenu heThongRapChieu={heThongRapChieu} />
     </div>
   );
 };

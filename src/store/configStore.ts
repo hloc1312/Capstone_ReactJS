@@ -1,12 +1,16 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-// import thunk from "redux-thunk";
-import { carouselReducer, quanLyPhimReducer } from "./quanLyPhim";
+import thunk from "redux-thunk";
 import { quanLyNguoiDungReducer } from "./quanLyNguoiDung";
+
+import { carouselReducer, quanLyPhimReducer } from "./quanLyPhim";
+
+import { quanLyRapReducer } from "./quanLyRap";
 const rootReducers = combineReducers({
   carouselReducer,
   quanLyPhimReducer,
   quanLyNguoiDungReducer,
+  quanLyRapReducer,
 });
 
 export const store = configureStore({
