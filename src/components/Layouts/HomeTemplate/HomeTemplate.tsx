@@ -6,10 +6,7 @@ const HomeTemplate = () => {
   return (
     <div className="HomeTemplate">
       <Header />
-      <div className="HomeTemplate-carousel">
-        <HomeCarousel />
-      </div>
-      <div className="HomeTemplate-content">
+      <div className="HomeTemplate-content ">
         <Outlet />
       </div>
       <Footer />

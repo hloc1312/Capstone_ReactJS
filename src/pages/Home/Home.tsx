@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { HomeCarousel } from "../../components/Organisms";
 import MultipleRowSlick from "../../components/Organisms/MultipleRowSlick/MultipleRowSlick";
 import { RootState, useAppDispath } from "../../store/configStore";
 import { getListMovie } from "../../store/quanLyPhim";
@@ -16,10 +17,8 @@ const Home = () => {
     return state.quanLyRapReducer;
   });
   const [searchParams, setSearchParams] = useSearchParams({
-    isShowing: "true",
+    isShowing: "false",
   });
-
-  console.log(searchParams.get("isShowing"));
 
   const phimSapChieu = () => {
     setSearchParams({ isShowing: "true" });
@@ -35,21 +34,25 @@ const Home = () => {
 
   return (
     <div>
+      <HomeCarousel />
+
       {/* Start Home item */}
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
-          <MultipleRowSlick
-            listMovie={listMovie}
-            phimSapChieu={phimSapChieu}
-            phimDangChieu={phimDangChieu}
-            isShowing={searchParams.get("isShowing") || ""}
-          />
-        </div>
-      </section>
+      <div className="container mx-auto p-4 pb-24">
+        <section className="text-gray-600 body-font ">
+          <div className="container px-5 py-24 mx-auto">
+            <MultipleRowSlick
+              listMovie={listMovie}
+              phimSapChieu={phimSapChieu}
+              phimDangChieu={phimDangChieu}
+              isShowing={searchParams.get("isShowing") || ""}
+            />
+          </div>
+        </section>
 
-      {/* End Home Item */}
+        {/* End Home Item */}
 
-      <HomeMenu heThongRapChieu={heThongRapChieu} />
+        <HomeMenu heThongRapChieu={heThongRapChieu} />
+      </div>
     </div>
   );
 };

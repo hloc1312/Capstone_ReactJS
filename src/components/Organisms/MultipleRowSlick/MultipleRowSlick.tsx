@@ -1,9 +1,7 @@
 import React, { memo } from "react";
-import { createSearchParams, useSearchParams } from "react-router-dom";
 import Slider from "react-slick";
 import { Phim } from "../../../types/quanLyPhimTypes";
-import CardFilm from "../../Molecules/CardFilm";
-import CardFilm_Hover from "../../Molecules/CardFilm_Hover";
+import CardFilm_Hover from "../../Molecules/CardFilm_Hover/CardFilm_Hover";
 import styleSlick from "./MultipleRowSlick.module.css";
 import cn from "classnames";
 
@@ -22,7 +20,6 @@ export const MultipleRowSlick: React.FC<ChilProps> = ({
 }) => {
   const renderPhim = () => {
     return listMovie
-
       .filter((item) => item.sapChieu.toString() === isShowing)
       .map((item) => {
         return (
@@ -33,8 +30,6 @@ export const MultipleRowSlick: React.FC<ChilProps> = ({
         );
       });
   };
-
-  console.log("listMovie", listMovie);
 
   function SampleNextArrow(props: any) {
     const { className, style, onClick } = props;

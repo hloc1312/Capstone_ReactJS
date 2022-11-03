@@ -66,18 +66,21 @@ const HomeMenu: React.FC<ChilProps> = ({ heThongRapChieu }) => {
                           </h1>
                           <p>{cumRap.diaChi}</p>
                           <div className="grid grid-cols-6 gap-8">
-                            {dsPhim.lstLichChieuTheoPhim.map((lichChieu) => {
-                              return (
-                                <NavLink
-                                  to={"/"}
-                                  className="text-[18px] text-green-400 hover:text-green-600"
-                                >
-                                  {moment(lichChieu.ngayChieuGioChieu).format(
-                                    "hh:mm A"
-                                  )}
-                                </NavLink>
-                              );
-                            })}
+                            {dsPhim.lstLichChieuTheoPhim
+                              .slice(0, 12)
+                              .map((lichChieu) => {
+                                return (
+                                  <NavLink
+                                    to={"/"}
+                                    className="text-[18px] text-green-400 hover:text-green-600"
+                                    key={lichChieu.maLichChieu}
+                                  >
+                                    {moment(lichChieu.ngayChieuGioChieu).format(
+                                      "hh:mm A"
+                                    )}
+                                  </NavLink>
+                                );
+                              })}
                           </div>
                         </div>
                       </div>
@@ -94,7 +97,11 @@ const HomeMenu: React.FC<ChilProps> = ({ heThongRapChieu }) => {
   };
   return (
     <>
-      <Tabs tabPosition={tabPosition} items={renderHeThongRap()} />
+      <Tabs
+        tabPosition={tabPosition}
+        items={renderHeThongRap()}
+        destroyInactiveTabPane
+      />
     </>
   );
 };

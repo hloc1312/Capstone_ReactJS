@@ -2,7 +2,7 @@ import { Button, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { Phim } from "../../../types/quanLyPhimTypes";
-import "../../Molecules/CardFlim_Hover.css";
+import "../../Molecules/CardFilm_Hover/CardFlim_Hover.css";
 
 type ChilProps = React.HTMLAttributes<HTMLDivElement> & {
   phimTrailer?: Phim;

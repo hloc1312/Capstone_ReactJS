@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, useRoutes } from "react-router-dom";
 import HomeTemplate from "../components/Layouts/HomeTemplate/HomeTemplate";
 import Contact from "../pages/Contact/Contact";
+import Detail from "../pages/Detail/Detail";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import News from "../pages/News/News";
@@ -31,6 +32,10 @@ const Routers = () => {
         {
           path: "login",
           element: <Login />,
+        },
+        {
+          path: "detail/:id",
+          element: <Detail />,
         },
       ],
     },

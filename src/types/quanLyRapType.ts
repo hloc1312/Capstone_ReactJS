@@ -31,3 +31,10 @@ export interface LichChieuHeThongRap {
   logo: string;
   mahom: string;
 }
+
+export interface HeThongRap {
+  maHeThongRap: string;
+  tenHeThongRap: string;
+  biDanh: string;
+  logo: string;
+}
