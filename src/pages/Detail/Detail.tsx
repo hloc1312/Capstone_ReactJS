@@ -9,6 +9,10 @@ import { NavLink, useParams } from "react-router-dom";
 import { getListLichChieuTheoPhim } from "../../store/quanLyRap";
 import moment from "moment";
 import "./detail.css";
+import {
+  getThongTinPhimLocalStorage,
+  thongTinPhimLocalStorage,
+} from "../../utils/localStore";
 type TabPosition = "left";
 const Detail = () => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
@@ -18,7 +22,13 @@ const Detail = () => {
 
   // Lấy thông tin param từ url
   const params = useParams();
-  // console.log(typeof params.id);
+
+  // Lưu thông tin phim lên localStorage
+  const setThongTinPhim = thongTinPhimLocalStorage;
+
+  // Lấy thông tin phim từ localStorage
+  const getThongTinPhim = getThongTinPhimLocalStorage;
+
   const dispatch = useAppDispath();
   console.log({ filmDetail });
   useEffect(() => {
@@ -116,6 +126,7 @@ const Detail = () => {
           </div>
         </div>
 
+        {/* Load lịch chiếu phim */}
         <Tabs
           className=" w-2/3 container !mx-auto"
           defaultActiveKey="1"
@@ -193,7 +204,66 @@ const Detail = () => {
               return {
                 label: <span className="labelTabs">Thông tin</span>,
                 key: id,
-                children: `Content of Tab Pane ${id}`,
+                children: (
+                  <div className="mt-5 bg-white p-5">
+                    <div className="flex">
+                      <div className="flex-1 px-4">
+                        <p className="flex">
+                          <span className="min-w-[130px] font-bold">
+                            Ngày công chiếu:
+                          </span>
+                          <span className="flex-1">
+                            {getThongTinPhim.ngayCongChieu}
+                          </span>
+                        </p>
+                        <p className="flex">
+                          <span className="min-w-[130px] font-bold">
+                            Đạo Diễn:
+                          </span>
+                          <span className="flex-1">
+                            {getThongTinPhim.daoDien}
+                          </span>
+                        </p>
+                        <p className="flex ">
+                          <span className="min-w-[130px] font-bold">
+                            Diễn Viên:
+                          </span>
+                          <span className="flex-1 w-[70%]">
+                            {getThongTinPhim.dienVien}
+                          </span>
+                        </p>
+                        <p className="flex">
+                          <span className="min-w-[130px] font-bold">
+                            Thể Loại:
+                          </span>
+                          <span className="flex-1">
+                            {getThongTinPhim.theLoai}
+                          </span>
+                        </p>
+                        <p className="flex">
+                          <span className="min-w-[130px] font-bold">
+                            Định Dạng:
+                          </span>
+                          <span className="flex-1">
+                            {getThongTinPhim.dinhDang}
+                          </span>
+                        </p>
+                        <p className="flex">
+                          <span className="min-w-[130px] font-bold">
+                            Quốc Gia SX:
+                          </span>
+                          <span className="flex-1">
+                            {getThongTinPhim.quocGiaSX}
+                          </span>
+                        </p>
+                      </div>
+                      <div className="flex-1 px-4">
+                        <p className="font-bold">Nội dung:</p>
+                        <p>{getThongTinPhim.noiDung}</p>
+                      </div>
+                    </div>
+                  </div>
+                ),
               };
             } else {
               return {
