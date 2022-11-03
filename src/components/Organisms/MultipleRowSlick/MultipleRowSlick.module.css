@@ -15,3 +15,7 @@
 .none_active_Film {
   @apply bg-white text-gray-800;
 }
+
+button.active {
+  @apply from-pink-500 to-orange-400 text-white bg-gradient-to-br bg-opacity-0;
+}

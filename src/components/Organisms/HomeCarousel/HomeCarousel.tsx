@@ -6,11 +6,11 @@ import {
   RootState,
   store,
   useAppDispath,
-} from "../../store/configStore";
-import { getListBanner } from "../../store/quanLyPhim";
+} from "../../../store/configStore";
+import { getListBanner } from "../../../store/quanLyPhim";
 import "./HomeCarousel.css";
 
-const HomeCarousel: React.FC = () => {
+export const HomeCarousel: React.FC = () => {
   const contentStyle: React.CSSProperties = {
     height: "600px",
     color: "#fff",
