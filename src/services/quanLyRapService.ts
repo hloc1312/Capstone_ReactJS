@@ -1,5 +1,9 @@
 import { api } from "../constants/api";
-import { HeThongRap, LichChieuHeThongRap } from "../types/quanLyRapType";
+import {
+  HeThongRap,
+  LichChieuHeThongRap,
+  LichChieuTheoPhim,
+} from "../types/quanLyRapType";
 import { GROUPID } from "../utils/config";
 
 export const quanLyRapService = {
@@ -11,6 +15,12 @@ export const quanLyRapService = {
   getListHeThongRap: () => {
     return api.get<HttpResponse<HeThongRap[]>>(
       "QuanLyRap/LayThongTinHeThongRap"
+    );
+  },
+
+  getListLichChieuTheoMaPhim: (maPhim: string) => {
+    return api.get<HttpResponse<LichChieuTheoPhim>>(
+      `QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`
     );
   },
 };

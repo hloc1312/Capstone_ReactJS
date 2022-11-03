@@ -38,3 +38,43 @@ export interface HeThongRap {
   biDanh: string;
   logo: string;
 }
+
+export interface LichChieuTheoPhim {
+  heThongRapChieu: [
+    {
+      cumRapChieu: [
+        {
+          lichChieuPhim: [
+            {
+              maLichChieu: string;
+              maRap: string;
+              tenRap: string;
+              ngayChieuGioChieu: string;
+              giaVe: number;
+              thoiLuong: number;
+            }
+          ];
+          maCumRap: string;
+          tenCumRap: string;
+          hinhAnh: string;
+          diaChi: string;
+        }
+      ];
+      maHeThongRap: string;
+      tenHeThongRap: string;
+      logo: string;
+    }
+  ];
+  maPhim: number;
+  tenPhim: string;
+  biDanh: string;
+  trailer: string;
+  hinhAnh: string;
+  moTa: string;
+  maNhom: string;
+  hot: boolean;
+  dangChieu: boolean;
+  sapChieu: boolean;
+  ngayKhoiChieu: string;
+  danhGia: number;
+}
