@@ -11,7 +11,6 @@ export const Footer = () => {
   const arrHeThongRap = _.map(heThongRapChieu, (heThongRap) =>
     _.pick(heThongRap, ["maHeThongRap", "tenHeThongRap", "logo"])
   );
-  console.log(arrHeThongRap);
   return (
     <footer
       className="Footer py-6 dark:bg-gray-800 dark:text-gray-50 text-white"

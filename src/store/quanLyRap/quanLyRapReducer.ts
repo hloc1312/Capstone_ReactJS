@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { quanLyRapService } from "../../services/quanLyRapService";
-import { LichChieuHeThongRap } from "../../types/quanLyRapType";
+import {
+  LichChieuHeThongRap,
+  LichChieuTheoPhim,
+} from "../../types/quanLyRapType";
 
 interface InitialState {
   heThongRapChieu: LichChieuHeThongRap[];
@@ -40,6 +43,18 @@ export const getListHeThongRapChieu = createAsyncThunk(
   async (data, { dispatch, getState, rejectWithValue }) => {
     try {
       const result = await quanLyRapService.getListLichChieuHeThongRap();
+      return result.data.content;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const getListLichChieuTheoPhim = createAsyncThunk(
+  "quanLyRap/getListLichChieuTheoPhim",
+  async (id: string, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const result = await quanLyRapService.getListLichChieuTheoMaPhim(id);
+      console.log(result);
       return result.data.content;
     } catch (err: any) {
       return rejectWithValue(err.response.data);
