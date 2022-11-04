@@ -213,7 +213,9 @@ const Detail = () => {
                             Ngày công chiếu:
                           </span>
                           <span className="flex-1">
-                            {getThongTinPhim.ngayCongChieu}
+                            {moment(filmDetail.ngayKhoiChieu).format(
+                              "DD.MM.YYYY"
+                            )}
                           </span>
                         </p>
                         <p className="flex">
@@ -259,7 +261,7 @@ const Detail = () => {
                       </div>
                       <div className="flex-1 px-4">
                         <p className="font-bold">Nội dung:</p>
-                        <p>{getThongTinPhim.noiDung}</p>
+                        <p>{filmDetail.moTa}</p>
                       </div>
                     </div>
                   </div>

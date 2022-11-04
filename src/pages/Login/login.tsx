@@ -31,10 +31,7 @@ const Login = () => {
     dispatch(getListUser());
   }, []);
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="lg:w-1/2 xl:max-w-screen-sm"
-    >
+    <div className="lg:w-1/2 xl:max-w-screen-sm">
       <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">
         <div className="cursor-pointer flex items-center">
           <div>
@@ -53,7 +50,7 @@ const Login = () => {
                 type="text/css"
                 dangerouslySetInnerHTML={{
                   __html:
-                    "\n.st0{fill:none;stroke:currentColor;stroke-width:20;stroke-linecap:round;stroke-miterlimit:3;}\n                                ",
+                    "\n                                    .st0{fill:none;stroke:currentColor;stroke-width:20;stroke-linecap:round;stroke-miterlimit:3;}\n                                ",
                 }}
               />
               <g transform="matrix( 1, 0, 0, 1, 0,0) ">
@@ -68,7 +65,7 @@ const Login = () => {
             </svg>
           </div>
           <div className="text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">
-            Cyberlearn
+            blockify
           </div>
         </div>
       </div>
@@ -77,41 +74,38 @@ const Login = () => {
           className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
               xl:text-bold"
         >
-          Đăng Nhập
+          Log in
         </h2>
         <div className="mt-12">
-          <div>
+          <form>
             <div>
               <div className="text-sm font-bold text-gray-700 tracking-wide">
-                Tài khoản
+                Email Address
               </div>
               <input
-                name="taiKhoan"
-                onChange={formik.handleChange}
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                placeholder="Nhập tài khoảng"
+                type="text"
+                placeholder="mike@gmail.com"
               />
             </div>
             <div className="mt-8">
               <div className="flex justify-between items-center">
                 <div className="text-sm font-bold text-gray-700 tracking-wide">
-                  Mật khẩu
+                  Password
                 </div>
                 <div>
                   <a
                     className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
                                   cursor-pointer"
                   >
-                    Quên mật khẩu?
+                    Forgot Password?
                   </a>
                 </div>
               </div>
               <input
-                type="password"
-                name="matKhau"
-                onChange={formik.handleChange}
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                placeholder="Nhập mật khẩu"
+                type="text"
+                placeholder="Enter your password"
               />
             </div>
             <div className="mt-10">
@@ -120,22 +114,19 @@ const Login = () => {
                           font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                           shadow-lg"
               >
-                Đăng nhập
+                Log In
               </button>
             </div>
-          </div>
+          </form>
           <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-            Không có tài khoản?{" "}
-            <NavLink
-              to="register"
-              className="cursor-pointer text-indigo-600 hover:text-indigo-800"
-            >
-              Đăng ký
-            </NavLink>
+            Don't have an account ?{" "}
+            <a className="cursor-pointer text-indigo-600 hover:text-indigo-800">
+              Sign up
+            </a>
           </div>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 export default Login;
