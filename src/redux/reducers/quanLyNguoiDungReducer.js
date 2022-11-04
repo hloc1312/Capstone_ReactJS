@@ -8,6 +8,9 @@ if(localStorage.getItem(USER_LOGIN)) {
 const stateDefault = {
     userLogin: user,
     thongTinNguoiDung: {},
+    userList: [],
+    thongTinNguoiDungEdit: {},
+    thongTinUserEdit: {}
 }
 export const quanLyNguoiDungReducer = (state = stateDefault, action) => {
     switch (action.type) {
@@ -21,6 +24,22 @@ export const quanLyNguoiDungReducer = (state = stateDefault, action) => {
             state.thongTinNguoiDung = action.thongTinNguoiDung
             return {...state}
         }
+
+        case SET_DANH_SACH_NGUOI_DUNG: {
+            state.userList = action.payload
+            return {...state}
+        }
+
+        case SET_THONG_TIN_NGUOI_DUNG_EDIT: {
+            state.thongTinNguoiDungEdit = action.thongTinNguoiDungEdit
+            return {...state}
+        }
+
+        case SET_THONG_TIN_USER_EDIT: {
+            state.thongTinUserEdit = action.thongTinUserEdit
+            return {...state}
+        }
+
         default: return { ...state }
     }
 }
