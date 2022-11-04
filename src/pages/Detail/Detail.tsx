@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CustomCard } from "@tsamantanis/react-glassmorphism";
 import "@tsamantanis/react-glassmorphism/dist/index.css";
 import "../../assets/styles/circle.css";
-import { Rate, Tabs } from "antd";
+import { Modal, Rate, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispath } from "../../store/configStore";
 import { NavLink, useParams } from "react-router-dom";
@@ -13,12 +13,21 @@ import {
   getThongTinPhimLocalStorage,
   thongTinPhimLocalStorage,
 } from "../../utils/localStore";
+import ReactPlayer from "react-player";
 type TabPosition = "left";
 const Detail = () => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const { filmDetail } = useSelector((state: RootState) => {
     return state.quanLyPhimReducer;
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   // Lấy thông tin param từ url
   const params = useParams();
@@ -95,6 +104,48 @@ const Detail = () => {
                 >
                   {filmDetail?.moTa}
                 </p>
+                <span className="text-left">
+                  <button
+                    className="relative inline-block text-lg group"
+                    onClick={showModal}
+                  >
+                    <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-[#ff3838] transition-colors duration-300 ease-out border-2 border-[#ff3838] rounded-lg group-hover:text-white">
+                      <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50" />
+                      <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-[#ff3838] group-hover:-rotate-180 ease" />
+                      <span className="relative">
+                        <i className="fab fa-youtube mr-1 capitalize"></i>{" "}
+                        Trailer Phim
+                      </span>
+                    </span>
+                    <span
+                      className="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-red-600 rounded-lg group-hover:mb-0 group-hover:mr-0"
+                      data-rounded="rounded-lg"
+                    />
+                  </button>
+                </span>
+                {/* Modal trailer phim */}
+                <Modal
+                  title={
+                    <span className="text-red-500">
+                      <i className="fab fa-youtube mr-1 capitalize" />
+                      Trailer Phim ({filmDetail?.tenPhim})
+                    </span>
+                  }
+                  open={isModalOpen}
+                  onCancel={handleCancel}
+                  footer={null}
+                  width={"1000px"}
+                  destroyOnClose={true}
+                >
+                  <ReactPlayer
+                    url={filmDetail?.trailer}
+                    playing={isModalOpen}
+                    controls
+                    width={"100%"}
+                    height={"500px"}
+                    loop
+                  />
+                </Modal>
               </div>
             </div>
           </div>
