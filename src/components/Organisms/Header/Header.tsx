@@ -61,7 +61,7 @@ export const Header = () => {
         <div className="items-center flex-shrink-0 hidden lg:flex">
           <button
             className="self-center px-8 py-3 rounded"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/user/login")}
           >
             Sign in
           </button>

@@ -37,7 +37,7 @@ const Detail = () => {
   return (
     <div
       style={{
-        backgroundImage: `url(${filmDetail.hinhAnh})`,
+        backgroundImage: `url(${filmDetail?.hinhAnh})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -56,7 +56,7 @@ const Detail = () => {
             <div className="grid grid-cols-3">
               <div
                 style={{
-                  backgroundImage: `url(${filmDetail.hinhAnh})`,
+                  backgroundImage: `url(${filmDetail?.hinhAnh})`,
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   backgroundPosition: "center",
@@ -64,8 +64,8 @@ const Detail = () => {
                 className="h-[300px] col-span-1"
               >
                 <img
-                  src={filmDetail.hinhAnh}
-                  alt={filmDetail.tenPhim}
+                  src={filmDetail?.hinhAnh}
+                  alt={filmDetail?.tenPhim}
                   className="opacity-0"
                 />
               </div>
@@ -77,7 +77,7 @@ const Detail = () => {
                   }}
                 >
                   Ngày khởi chiếu:{" "}
-                  {moment(filmDetail.ngayKhoiChieu).format("DD.MM.YYYY")}
+                  {moment(filmDetail?.ngayKhoiChieu).format("DD.MM.YYYY")}
                 </p>
                 <p
                   className="text-4xl uppercase font-bold "
@@ -85,7 +85,7 @@ const Detail = () => {
                     textShadow: "5px 5px 10px #000",
                   }}
                 >
-                  {filmDetail.tenPhim}
+                  {filmDetail?.tenPhim}
                 </p>
                 <p
                   className="drop-shadow-lg"
@@ -93,7 +93,7 @@ const Detail = () => {
                     textShadow: "5px 5px 10px #000",
                   }}
                 >
-                  {filmDetail.moTa}
+                  {filmDetail?.moTa}
                 </p>
               </div>
             </div>
@@ -110,13 +110,13 @@ const Detail = () => {
                 <br />
                 <Rate
                   disabled
-                  value={filmDetail.danhGia / 2}
+                  value={filmDetail!.danhGia / 2}
                   className="text-[18px]"
                 />
               </h1>
 
-              <div className={`c100 p${filmDetail.danhGia * 10} big`}>
-                <span>{filmDetail.danhGia * 10}%</span>
+              <div className={`c100 p${filmDetail!.danhGia * 10} big`}>
+                <span>{filmDetail!.danhGia * 10}%</span>
                 <div className="slice">
                   <div className="bar" />
                   <div className="fill" />
@@ -141,7 +141,7 @@ const Detail = () => {
                   <div className="mt-5 bg-white p-5">
                     <Tabs
                       tabPosition={tabPosition}
-                      items={filmDetail.heThongRapChieu?.map((heThongRap) => {
+                      items={filmDetail?.heThongRapChieu?.map((heThongRap) => {
                         return {
                           label: (
                             <div className="flex items-center justify-center">
@@ -213,7 +213,7 @@ const Detail = () => {
                             Ngày công chiếu:
                           </span>
                           <span className="flex-1">
-                            {moment(filmDetail.ngayKhoiChieu).format(
+                            {moment(filmDetail?.ngayKhoiChieu).format(
                               "DD.MM.YYYY"
                             )}
                           </span>
@@ -261,7 +261,7 @@ const Detail = () => {
                       </div>
                       <div className="flex-1 px-4">
                         <p className="font-bold">Nội dung:</p>
-                        <p>{filmDetail.moTa}</p>
+                        <p>{filmDetail?.moTa}</p>
                       </div>
                     </div>
                   </div>
