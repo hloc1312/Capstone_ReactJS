@@ -5,7 +5,7 @@ import { quanLyNguoiDungAction } from '../../redux/actions/quanLyNguoiDungAction
 import { RootState } from '../../store/configStore';
 import { AppDispatch } from '../../redux/configStore';
 import { useDispatch,useSelector } from 'react-redux';
-// import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
+import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
 
 const Login = () => {
 

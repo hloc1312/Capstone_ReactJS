@@ -1,4 +1,4 @@
-import { quanLyNguoiDungService } from "../../services/QuanLyNguoiDungServies";
+import { quanLyNguoiDungService } from "../../services/quanLyNguoiDungServies";
 import { DANG_NHAP_ACTION, SET_THONG_TIN_NGUOI_DUNG } from "./types/quanLyNguoiDungType";
 import {history} from '../../App'
 import { GROUPID } from "../../util/settings/config";
