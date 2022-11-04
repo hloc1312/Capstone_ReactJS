@@ -5,36 +5,33 @@ import { NavLink } from "react-router-dom";
 import { RootState, useAppDispath } from "../../store/configStore";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getListUser } from "../../store/quanLyNguoiDung";
+import { userLogin } from "../../store/quanLyNguoiDung";
 // import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
 
 const Login = () => {
   const dispatch = useAppDispath();
 
-  const { userLogin } = useSelector(
+  const { user } = useSelector(
     (state: RootState) => state.quanLyNguoiDungReducer
   );
-  console.log("userLogin: ", userLogin);
+  console.log("userLogin: ", user);
   const formik = useFormik({
     initialValues: {
       taiKhoan: "",
       matKhau: "",
     },
-    onSubmit: (values: any) => {
+    onSubmit: (values) => {
       // // const action = quanLyNguoiDungAction.dangNhapAction(values);
-      // dispatch(action);
+      dispatch(userLogin(values));
       // console.log("values: ", values);
     },
   });
 
-  useEffect(() => {
-    dispatch(getListUser());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getListUser());
+  // }, []);
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="lg:w-1/2 xl:max-w-screen-sm"
-    >
+    <div className="lg:w-1/2 xl:max-w-screen-sm">
       <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">
         <div className="cursor-pointer flex items-center">
           <div>
@@ -53,7 +50,7 @@ const Login = () => {
                 type="text/css"
                 dangerouslySetInnerHTML={{
                   __html:
-                    "\n.st0{fill:none;stroke:currentColor;stroke-width:20;stroke-linecap:round;stroke-miterlimit:3;}\n                                ",
+                    "\n                                    .st0{fill:none;stroke:currentColor;stroke-width:20;stroke-linecap:round;stroke-miterlimit:3;}\n                                ",
                 }}
               />
               <g transform="matrix( 1, 0, 0, 1, 0,0) ">
@@ -67,20 +64,20 @@ const Login = () => {
               </g>
             </svg>
           </div>
-          <div className="text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">
-            Cyberlearn
+          <div className="uppercase text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">
+            cyberlearn
           </div>
         </div>
       </div>
-      <div className="mt-10 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
+      <div className="mt-10 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-4 xl:px-24 xl:max-w-2xl">
         <h2
           className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
-              xl:text-bold"
+              xl:text-bold uppercase"
         >
-          Đăng Nhập
+          đăng nhập
         </h2>
         <div className="mt-12">
-          <div>
+          <form onSubmit={formik.handleSubmit}>
             <div>
               <div className="text-sm font-bold text-gray-700 tracking-wide">
                 Tài khoản
@@ -89,7 +86,8 @@ const Login = () => {
                 name="taiKhoan"
                 onChange={formik.handleChange}
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                placeholder="Nhập tài khoảng"
+                type="text"
+                placeholder="Nhập vào tài khoản"
               />
             </div>
             <div className="mt-8">
@@ -98,20 +96,21 @@ const Login = () => {
                   Mật khẩu
                 </div>
                 <div>
-                  <a
+                  <NavLink
+                    to={"/"}
                     className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
                                   cursor-pointer"
                   >
-                    Quên mật khẩu?
-                  </a>
+                    Quên mật khẩu ?
+                  </NavLink>
                 </div>
               </div>
               <input
-                type="password"
                 name="matKhau"
                 onChange={formik.handleChange}
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                placeholder="Nhập mật khẩu"
+                type="password"
+                placeholder="Nhập vào password"
               />
             </div>
             <div className="mt-10">
@@ -120,14 +119,14 @@ const Login = () => {
                           font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                           shadow-lg"
               >
-                Đăng nhập
+                Đăng Nhập
               </button>
             </div>
-          </div>
+          </form>
           <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-            Không có tài khoản?{" "}
+            Bạn chưa có tài khoản ?{" "}
             <NavLink
-              to="register"
+              to={"/"}
               className="cursor-pointer text-indigo-600 hover:text-indigo-800"
             >
               Đăng ký
@@ -135,7 +134,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 export default Login;

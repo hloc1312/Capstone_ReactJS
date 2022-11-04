@@ -9,7 +9,7 @@ interface InitialState {
   isFetching: boolean;
   isFetchingDetail: boolean;
   err: any;
-  filmDetail: LichChieuTheoPhim;
+  filmDetail?: LichChieuTheoPhim;
 }
 
 const initialState: InitialState = {
@@ -62,47 +62,7 @@ const initialState: InitialState = {
   ],
   isFetching: false,
   err: "",
-  filmDetail: {
-    heThongRapChieu: [
-      {
-        cumRapChieu: [
-          {
-            lichChieuPhim: [
-              {
-                maLichChieu: "45709",
-                maRap: "458",
-                tenRap: "Rạp 8",
-                ngayChieuGioChieu: "2022-11-01T07:54:00",
-                giaVe: 80000,
-                thoiLuong: 120,
-              },
-            ],
-            maCumRap: "bhd-star-cineplex-3-2",
-            tenCumRap: "BHD Star Cineplex - 3/2",
-            hinhAnh:
-              "https://s3img.vcdn.vn/123phim/2021/01/bhd-star-bitexco-16105952137769.png",
-            diaChi: "L5-Vincom 3/2, 3C Đường 3/2, Q.10",
-          },
-        ],
-        maHeThongRap: "BHDStar",
-        tenHeThongRap: "BHD Star Cineplex",
-        logo: "https://movienew.cybersoft.edu.vn/hinhanh/bhd-star-cineplex.png",
-      },
-    ],
-    maPhim: 10724,
-    tenPhim: "Đặc vụ xuyên quốc gia",
-    biDanh: "dac-vu-xuyen-quoc-gia",
-    trailer: "https://youtu.be/98W8bv_8Kz8",
-    hinhAnh:
-      "https://movienew.cybersoft.edu.vn/hinhanh/dac-vu-xuyen-quoc-gia_gp13.jpg",
-    moTa: "Đặc vụ xuyên quốc gia",
-    maNhom: "GP13",
-    hot: true,
-    dangChieu: true,
-    sapChieu: false,
-    ngayKhoiChieu: "2022-10-21T00:00:00",
-    danhGia: 9,
-  },
+
   isFetchingDetail: false,
 };
 export const { reducer: quanLyPhimReducer, actions: quanLyPhimActions } =
