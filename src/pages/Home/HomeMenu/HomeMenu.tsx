@@ -5,7 +5,7 @@ import { useState } from "react";
 import { LichChieuHeThongRap } from "../../../types/quanLyRapType";
 import { NavLink } from "react-router-dom";
 import moment from "moment";
-import noImages from "../../../assets/noImages.jpg";
+import noImages from "../../../assets/images/noImages.jpg";
 
 type ChilProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   heThongRapChieu: LichChieuHeThongRap[];

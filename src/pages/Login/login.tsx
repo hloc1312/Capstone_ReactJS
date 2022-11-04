@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { RootState, useAppDispath } from "../../store/configStore";
 
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../store/quanLyNguoiDung";
+import _ from "lodash";
 // import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
 
 const Login = () => {
@@ -14,22 +15,20 @@ const Login = () => {
   const { user } = useSelector(
     (state: RootState) => state.quanLyNguoiDungReducer
   );
-  console.log("userLogin: ", user);
+
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       taiKhoan: "",
       matKhau: "",
     },
     onSubmit: (values) => {
-      // // const action = quanLyNguoiDungAction.dangNhapAction(values);
-      dispatch(userLogin(values));
-      // console.log("values: ", values);
+      dispatch(userLogin(values))
+        .unwrap()
+        .then(() => navigate(-2));
     },
   });
 
-  // useEffect(() => {
-  //   dispatch(getListUser());
-  // }, []);
   return (
     <div className="lg:w-1/2 xl:max-w-screen-sm">
       <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">

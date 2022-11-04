@@ -4,14 +4,9 @@ import { USER_LOGIN } from "../../../utils/config";
 
 const CheckoutTemplate = () => {
   if (!localStorage.getItem("USER_LOGIN")) {
-    return <Navigate to={"user/login"} />;
+    return <Navigate to={"/user/login"} />;
   }
-  return (
-    <div>
-      CheckoutTemplate
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default CheckoutTemplate;
