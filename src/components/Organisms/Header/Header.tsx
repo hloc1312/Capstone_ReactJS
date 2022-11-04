@@ -8,7 +8,7 @@ export const Header = () => {
       <div className="container flex justify-between h-16 mx-auto">
         <NavLink
           rel="noopener noreferrer"
-          to="#"
+          to="/"
           aria-label="Back to homepage"
           className="flex items-center p-2"
         >

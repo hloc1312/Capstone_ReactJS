@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import noImages from "../../../assets/noImages.jpg";
+import noImages from "../../../assets/images/noImages.jpg";
 import { Phim } from "../../../types/quanLyPhimTypes";
 import ModalTrailerFilm from "../../Organisms/ModalTrailerFilm/ModalTrailerFilm";
 import "./CardFlim_Hover.css";

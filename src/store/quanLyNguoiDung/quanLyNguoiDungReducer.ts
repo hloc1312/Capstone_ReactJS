@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { quanLyNguoiDungService } from "../../services/quanLyNguoiDungService";
 import { User, UserLogin } from "../../types/quanLyNguoiDung";
 
 import { TOKEN, USER_LOGIN } from "../../utils/config";
 
 interface InitialState {
-  user?: {};
+  user?: User;
   thongTinNguoiDung: {};
   isFetching: boolean;
   err: any;
@@ -38,15 +38,20 @@ export const {
       .addCase(userLogin.fulfilled, (state, action) => {
         const thongTinDangNhap = action.payload;
         localStorage.setItem(USER_LOGIN, JSON.stringify(thongTinDangNhap));
-        localStorage.setItem(TOKEN, JSON.stringify(action.payload.accessToken));
+        localStorage.setItem(
+          TOKEN,
+          JSON.stringify(action.payload?.accessToken)
+        );
         state.isFetching = false;
         state.user = action.payload;
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.isFetching = false;
+        state.err = action.payload;
       });
   },
 });
+
 export const userLogin = createAsyncThunk(
   "quanLyNguoiDung/userLogin",
   async (
@@ -56,13 +61,12 @@ export const userLogin = createAsyncThunk(
     try {
       const result = await quanLyNguoiDungService.dangNhap(thongTinDangNhap);
       if (result.data.statusCode === 200) {
-        // const navigate = useNavigate();
-        // navigate("/home");
+        // const navigation = useNavigate();
+
+        // Lỗi chưa fix được
+        // console.log("data", result.data.content);
         return result.data.content;
       }
-      return result.data.content;
-
-      // return result.data.content;
     } catch (err: any) {
       return rejectWithValue(err.response.data);
     }

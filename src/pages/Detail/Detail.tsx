@@ -231,7 +231,7 @@ const Detail = () => {
                                     ?.map((lichChieu) => {
                                       return (
                                         <NavLink
-                                          to={"/"}
+                                          to={`/checkout/${lichChieu.maLichChieu}`}
                                           className="col-span-1 font-bold text-green-300 hover:text-green-600"
                                           key={lichChieu.maLichChieu}
                                         >
