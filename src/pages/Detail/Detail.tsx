@@ -110,13 +110,13 @@ const Detail = () => {
                 <br />
                 <Rate
                   disabled
-                  value={filmDetail!.danhGia / 2}
+                  value={(filmDetail?.danhGia || 1) / 2}
                   className="text-[18px]"
                 />
               </h1>
 
-              <div className={`c100 p${filmDetail!.danhGia * 10} big`}>
-                <span>{filmDetail!.danhGia * 10}%</span>
+              <div className={`c100 p${(filmDetail?.danhGia || 1) * 10} big`}>
+                <span>{(filmDetail?.danhGia || 1) * 10}%</span>
                 <div className="slice">
                   <div className="bar" />
                   <div className="fill" />
