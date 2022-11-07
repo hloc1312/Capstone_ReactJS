@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { redirect, useNavigate } from "react-router-dom";
 import { quanLyNguoiDungService } from "../../services/quanLyNguoiDungService";
-import { User, UserLogin } from "../../types/quanLyNguoiDung";
+import { User, UserLogin, UserRegister } from "../../types/quanLyNguoiDung";
 
 import { TOKEN, USER_LOGIN } from "../../utils/config";
 
@@ -10,6 +10,8 @@ interface InitialState {
   thongTinNguoiDung: {};
   isFetching: boolean;
   err: any;
+  errRegister: any;
+  isFetchingRegister: boolean
 }
 
 let userLocalStorage = {};
@@ -22,6 +24,9 @@ const initialState: InitialState = {
   err: "",
   isFetching: false,
   user: userLocalStorage,
+  errRegister: "",
+  isFetchingRegister: true
+
 };
 export const {
   reducer: quanLyNguoiDungReducer,
@@ -48,7 +53,15 @@ export const {
       .addCase(userLogin.rejected, (state, action) => {
         state.isFetching = false;
         state.err = action.payload;
-      });
+      })
+      // user register
+      .addCase(dangKyAction.pending,(state,action)=>{
+        state.isFetchingRegister = true
+      }).addCase(dangKyAction.fulfilled,(state,action)=>{
+        state.isFetchingRegister = false
+      }).addCase(dangKyAction.rejected, (state,action)=>{
+        state.isFetchingRegister = false
+      })
   },
 });
 
@@ -65,6 +78,22 @@ export const userLogin = createAsyncThunk(
 
         // Lỗi chưa fix được
         // console.log("data", result.data.content);
+        return result.data.content;
+      }
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+
+);
+
+export const dangKyAction = createAsyncThunk(
+  "quanLyNguoiDung/dangKy",
+  async (thongTinNguoiDung: UserRegister, { rejectWithValue }) => {
+    try {
+      const result = await quanLyNguoiDungService.dangKy(thongTinNguoiDung);
+      if (result.data.statusCode === 200) {
+        // alert('Đăng ký thành công!')
         return result.data.content;
       }
     } catch (err: any) {

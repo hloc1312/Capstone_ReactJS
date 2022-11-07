@@ -15,6 +15,15 @@ import {
 } from "../../utils/localStore";
 import ReactPlayer from "react-player";
 type TabPosition = "left";
+
+type CustomCardProps = React.HTMLAttributes<HTMLDivElement> &{
+  borderRadius?: number;
+  blur?: number;
+  color?: string;
+  effectColor: string;
+  content?: HTMLElement;
+  
+}
 const Detail = () => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const { filmDetail } = useSelector((state: RootState) => {

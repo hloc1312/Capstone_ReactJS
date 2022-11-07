@@ -10,6 +10,7 @@ import Detail from "../pages/Detail/Detail";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/login";
 import News from "../pages/News/News";
+import Register from "../pages/Register/register";
 
 const CheckoutTemplateLazy = lazy(
   () => import("../components/Layouts/CheckoutTemplate/CheckoutTemplate")
@@ -127,6 +128,10 @@ const Routers = () => {
           path: "login",
           element: <Login />,
         },
+        {
+          path:'register',
+          element:<Register/>
+        }
       ],
     },
   ]);

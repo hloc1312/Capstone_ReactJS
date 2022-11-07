@@ -65,7 +65,7 @@ export const Header = () => {
           >
             Sign in
           </button>
-          <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">
+          <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900" onClick={()=>navigate('/user/register')}>
             Sign up
           </button>
         </div>
