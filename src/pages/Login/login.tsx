@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useFormik } from "formik";
+import { FormikErrors, useFormik } from "formik";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { RootState, useAppDispath } from "../../store/configStore";
@@ -7,8 +7,13 @@ import { RootState, useAppDispath } from "../../store/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../store/quanLyNguoiDung";
 import _ from "lodash";
-// import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
+import * as Yup from "yup";
 
+// import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
+interface FormValues {
+  taiKhoan: string;
+  matKhau: string;
+}
 const Login = () => {
   const dispatch = useAppDispath();
 
@@ -27,8 +32,20 @@ const Login = () => {
         .unwrap()
         .then(() => navigate(-2));
     },
+    validationSchema: Yup.object({
+      taiKhoan: Yup.string().required("Tài khoản không được bỏ trống"),
+      matKhau: Yup.string()
+      .required("Mật khẩu không được bỏ trống"),
+    }),
+    // validate: (values: FormValues) => {
+    //   const error: FormikErrors<FormValues> = {};
+    //   if (!values.taiKhoan) {
+    //     error.taiKhoan = "Required";
+    //   }
+    //   return error;
+    // },
   });
-
+  console.log(formik.errors);
   return (
     <div className="lg:w-1/2 xl:max-w-screen-sm">
       <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">
@@ -87,7 +104,12 @@ const Login = () => {
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                 type="text"
                 placeholder="Nhập vào tài khoản"
+                value={formik.values.taiKhoan}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.taiKhoan && formik.touched ? (
+                <p className="text-red-500">{formik.errors.taiKhoan}</p>
+              ) : null}
             </div>
             <div className="mt-8">
               <div className="flex justify-between items-center">
@@ -110,7 +132,12 @@ const Login = () => {
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                 type="password"
                 placeholder="Nhập vào password"
+                value={formik.values.matKhau}
+                onBlur={formik.handleBlur}
               />
+              {formik.errors.matKhau && formik.touched ? (
+                <p className="text-red-500">{formik.errors.matKhau}</p>
+              ) : null}
             </div>
             <div className="mt-10">
               <button

@@ -39,7 +39,7 @@ const Detail = () => {
   const getThongTinPhim = getThongTinPhimLocalStorage;
 
   const dispatch = useAppDispath();
-  console.log({ filmDetail });
+  // console.log({ filmDetail });
   useEffect(() => {
     dispatch(getListLichChieuTheoPhim(params.id || ""));
   }, []);
