@@ -1,15 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { redirect, useNavigate } from "react-router-dom";
 import { quanLyNguoiDungService } from "../../services/quanLyNguoiDungService";
-import { User, UserLogin } from "../../types/quanLyNguoiDung";
+import {
+  GetThongTinNguoiDung,
+  User,
+  UserLogin,
+} from "../../types/quanLyNguoiDungTypes";
 
 import { TOKEN, USER_LOGIN } from "../../utils/config";
 
 interface InitialState {
   user?: User;
-  thongTinNguoiDung: {};
   isFetching: boolean;
   err: any;
+  thongTinNguoiDung?: GetThongTinNguoiDung;
+  isFetchingThongTinNguoiDung: boolean;
+  errThongTinNguoiDung: any;
 }
 
 let userLocalStorage = {};
@@ -18,10 +23,11 @@ if (localStorage.getItem(USER_LOGIN)) {
   userLocalStorage = JSON.parse(localStorage.getItem(USER_LOGIN) as string);
 }
 const initialState: InitialState = {
-  thongTinNguoiDung: {},
   err: "",
   isFetching: false,
   user: userLocalStorage,
+  errThongTinNguoiDung: "",
+  isFetchingThongTinNguoiDung: false,
 };
 export const {
   reducer: quanLyNguoiDungReducer,
@@ -48,6 +54,18 @@ export const {
       .addCase(userLogin.rejected, (state, action) => {
         state.isFetching = false;
         state.err = action.payload;
+      })
+      // Lịch sử đặt vé
+      .addCase(lichSuNguoiDungDatVe.pending, (state, action) => {
+        state.isFetchingThongTinNguoiDung = true;
+      })
+      .addCase(lichSuNguoiDungDatVe.fulfilled, (state, action) => {
+        state.isFetchingThongTinNguoiDung = false;
+        state.thongTinNguoiDung = action.payload;
+      })
+      .addCase(lichSuNguoiDungDatVe.rejected, (state, action) => {
+        state.isFetchingThongTinNguoiDung = false;
+        state.errThongTinNguoiDung = action.payload;
       });
   },
 });
@@ -61,12 +79,20 @@ export const userLogin = createAsyncThunk(
     try {
       const result = await quanLyNguoiDungService.dangNhap(thongTinDangNhap);
       if (result.data.statusCode === 200) {
-        // const navigation = useNavigate();
-
-        // Lỗi chưa fix được
-        // console.log("data", result.data.content);
         return result.data.content;
       }
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const lichSuNguoiDungDatVe = createAsyncThunk(
+  "quanLyNguoiDung/lichSuNguoiDungDatVe",
+  async (data, { dispatch, getState, rejectWithValue }) => {
+    try {
+      const result = await quanLyNguoiDungService.getThongTinNguoiDung();
+      return result.data.content;
     } catch (err: any) {
       return rejectWithValue(err.response.data);
     }

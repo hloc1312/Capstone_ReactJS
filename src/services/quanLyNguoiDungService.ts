@@ -1,5 +1,9 @@
 import { api } from "../constants/api";
-import { User, UserLogin } from "../types/quanLyNguoiDung";
+import {
+  GetThongTinNguoiDung,
+  User,
+  UserLogin,
+} from "../types/quanLyNguoiDungTypes";
 import { GROUPID } from "../utils/config";
 
 export const quanLyNguoiDungService = {
@@ -13,6 +17,12 @@ export const quanLyNguoiDungService = {
     return api.post<HttpResponse<User>>(
       "QuanLyNguoiDung/DangNhap",
       thongTinDangNhap
+    );
+  },
+
+  getThongTinNguoiDung: () => {
+    return api.post<HttpResponse<GetThongTinNguoiDung>>(
+      "QuanLyNguoiDung/ThongTinTaiKhoan"
     );
   },
 };

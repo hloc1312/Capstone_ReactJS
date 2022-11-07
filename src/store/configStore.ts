@@ -6,11 +6,14 @@ import { quanLyNguoiDungReducer } from "./quanLyNguoiDung";
 import { carouselReducer, quanLyPhimReducer } from "./quanLyPhim";
 
 import { quanLyRapReducer } from "./quanLyRap";
+
+import { quanLyDatVeReducer } from "./quanLyDatVe";
 const rootReducers = combineReducers({
   carouselReducer,
   quanLyPhimReducer,
   quanLyNguoiDungReducer,
   quanLyRapReducer,
+  quanLyDatVeReducer,
 });
 
 export const store = configureStore({
