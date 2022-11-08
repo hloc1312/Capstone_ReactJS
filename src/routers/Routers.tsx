@@ -1,15 +1,21 @@
 import { Spin } from "antd";
 import React, { lazy, Suspense } from "react";
 import { Navigate, useRoutes } from "react-router-dom";
+import AdminTemplate from "../components/Layouts/AdminTemplate/AdminTemplate";
 import CheckoutTemplate from "../components/Layouts/CheckoutTemplate/CheckoutTemplate";
 import HomeTemplate from "../components/Layouts/HomeTemplate/HomeTemplate";
 import UserTemplate from "../components/Layouts/UserTemplate/UserTemplate";
 import Checkout from "../pages/Checkout/Checkout";
 import Contact from "../pages/Contact/Contact";
+import Dashboard from "../pages/Dashboard/Dashboard";
 import Detail from "../pages/Detail/Detail";
+import AddFilm from "../pages/Films/AddFilm/AddFilm";
+import Films from "../pages/Films/Films";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import News from "../pages/News/News";
+import Register from "../pages/Register/Register";
+import ShowTime from "../pages/ShowTime/ShowTime";
 
 const CheckoutTemplateLazy = lazy(
   () => import("../components/Layouts/CheckoutTemplate/CheckoutTemplate")
@@ -21,6 +27,10 @@ const HomeTemplateLazy = lazy(
 
 const UserTemplateLazy = lazy(
   () => import("../components/Layouts/UserTemplate/UserTemplate")
+);
+
+const AdminTemplateLazy = lazy(
+  () => import("../components/Layouts/AdminTemplate/AdminTemplate")
 );
 
 const Routers = () => {
@@ -126,6 +136,33 @@ const Routers = () => {
         {
           path: "login",
           element: <Login />,
+        },
+        {
+          path: "register",
+          element: <Register />,
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminTemplateLazy />,
+      children: [
+        {
+          path: "users",
+          element: <Dashboard />,
+        },
+        {
+          path: "films",
+          element: <Films />,
+        },
+        {
+          path: "films/addfilm",
+          element: <AddFilm />,
+        },
+
+        {
+          path: "showtimes",
+          element: <ShowTime />,
         },
       ],
     },

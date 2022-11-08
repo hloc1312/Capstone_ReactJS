@@ -4,6 +4,7 @@ import {
   GetThongTinNguoiDung,
   User,
   UserLogin,
+  UserRegister,
 } from "../../types/quanLyNguoiDungTypes";
 
 import { TOKEN, USER_LOGIN } from "../../utils/config";
@@ -15,6 +16,8 @@ interface InitialState {
   thongTinNguoiDung?: GetThongTinNguoiDung;
   isFetchingThongTinNguoiDung: boolean;
   errThongTinNguoiDung: any;
+  isFetchingRegister: boolean;
+  errRegister: any;
 }
 
 let userLocalStorage = {};
@@ -28,6 +31,8 @@ const initialState: InitialState = {
   user: userLocalStorage,
   errThongTinNguoiDung: "",
   isFetchingThongTinNguoiDung: false,
+  isFetchingRegister: false,
+  errRegister: "",
 };
 export const {
   reducer: quanLyNguoiDungReducer,
@@ -50,6 +55,7 @@ export const {
         );
         state.isFetching = false;
         state.user = action.payload;
+        state.err = "";
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.isFetching = false;
@@ -66,6 +72,18 @@ export const {
       .addCase(lichSuNguoiDungDatVe.rejected, (state, action) => {
         state.isFetchingThongTinNguoiDung = false;
         state.errThongTinNguoiDung = action.payload;
+      })
+      // Regiter
+      .addCase(dangKyAction.pending, (state, action) => {
+        state.isFetchingRegister = true;
+      })
+      .addCase(dangKyAction.fulfilled, (state, action) => {
+        state.isFetchingRegister = false;
+        state.errRegister = "";
+      })
+      .addCase(dangKyAction.rejected, (state, action) => {
+        state.isFetchingRegister = false;
+        state.errRegister = action.payload;
       });
   },
 });
@@ -93,6 +111,20 @@ export const lichSuNguoiDungDatVe = createAsyncThunk(
     try {
       const result = await quanLyNguoiDungService.getThongTinNguoiDung();
       return result.data.content;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const dangKyAction = createAsyncThunk(
+  "quanLyNguoiDung/dangKy",
+  async (thongTinNguoiDung: UserRegister, { rejectWithValue }) => {
+    try {
+      const result = await quanLyNguoiDungService.dangKy(thongTinNguoiDung);
+      if (result.data.statusCode === 200) {
+        return result.data.content;
+      }
     } catch (err: any) {
       return rejectWithValue(err.response.data);
     }

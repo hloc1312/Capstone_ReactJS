@@ -17,7 +17,7 @@ interface FormValues {
 const Login = () => {
   const dispatch = useAppDispath();
 
-  const { user } = useSelector(
+  const { user, err } = useSelector(
     (state: RootState) => state.quanLyNguoiDungReducer
   );
 
@@ -79,7 +79,12 @@ const Login = () => {
               </g>
             </svg>
           </div>
-          <div className="uppercase text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">
+          <div
+            onClick={() => {
+              navigate("/home");
+            }}
+            className="uppercase text-2xl text-indigo-800 tracking-wide ml-2 font-semibold"
+          >
             cyberlearn
           </div>
         </div>
@@ -139,6 +144,13 @@ const Login = () => {
               ) : null}
             </div>
             <div className="mt-10">
+              {err !== "" ? (
+                <p className="text-center text-red-500 font-bold">
+                  {err.content}
+                </p>
+              ) : (
+                ""
+              )}
               <button
                 className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                           font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
@@ -151,7 +163,7 @@ const Login = () => {
           <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
             Bạn chưa có tài khoản ?{" "}
             <NavLink
-              to={"/"}
+              to={"/user/register"}
               className="cursor-pointer text-indigo-600 hover:text-indigo-800"
             >
               Đăng ký

@@ -24,7 +24,10 @@ export const Header = () => {
           >
             {t("Sign in")}
           </button>
-          <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">
+          <button
+            onClick={() => navigate("/user/register")}
+            className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
+          >
             {t("Sign up")}
           </button>
         </Fragment>

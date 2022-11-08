@@ -3,6 +3,7 @@ import {
   GetThongTinNguoiDung,
   User,
   UserLogin,
+  UserRegister,
 } from "../types/quanLyNguoiDungTypes";
 import { GROUPID } from "../utils/config";
 
@@ -23,6 +24,12 @@ export const quanLyNguoiDungService = {
   getThongTinNguoiDung: () => {
     return api.post<HttpResponse<GetThongTinNguoiDung>>(
       "QuanLyNguoiDung/ThongTinTaiKhoan"
+    );
+  },
+  dangKy: (thongTinNguoiDung: UserRegister) => {
+    return api.post<HttpResponse<UserRegister>>(
+      `QuanLyNguoiDung/DangKy`,
+      thongTinNguoiDung
     );
   },
 };
