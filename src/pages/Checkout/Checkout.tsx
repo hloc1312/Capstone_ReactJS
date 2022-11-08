@@ -4,22 +4,26 @@ import { RootState, useAppDispath } from "../../store/configStore";
 import screen from "../../assets/images/screen.png";
 import {
   datGhe,
-  datGheAction,
   datVe,
   getListPhongVe,
   quanLyDatVeAction,
 } from "../../store/quanLyDatVe";
-import { useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import "./checkout.css";
 import cn from "classnames";
-import _ from "lodash";
-import { DatVe } from "../../types/quanLyDatVeTypes";
-import { TOKEN } from "../../utils/config";
+import _, { upperCase } from "lodash";
+import { DanhSachGhe, DatVe } from "../../types/quanLyDatVeTypes";
+import { TOKEN, USER_LOGIN } from "../../utils/config";
 import { Tabs } from "antd";
 import { lichSuNguoiDungDatVe } from "../../store/quanLyNguoiDung";
 import Loading from "../../components/Molecules/Loading/Loading";
 import { connection } from "../..";
+
+interface DanhSachGheKhachDat {
+  taiKhoan: string;
+  danhSachGhe: string;
+}
 
 const Checkout = () => {
   const { user } = useSelector((state: RootState) => {
@@ -34,7 +38,7 @@ const Checkout = () => {
   } = useSelector((state: RootState) => {
     return state.quanLyDatVeReducer;
   });
-  console.log({ danhSachGheKhachDangDat });
+  // console.log({ danhSachGheKhachDangDat });
   const thongTinPhim = chiTietPhongVe?.thongTinPhim;
   const danhSachGhe = chiTietPhongVe?.danhSachGhe;
 
@@ -51,12 +55,12 @@ const Checkout = () => {
       );
 
       // Kiểm tra xem tửng ghế có trong mảng danhSachGheKhachDangDat hay không
-      const indexGheKhachDat = danhSachGheKhachDangDat?.findIndex(
-        (gheKD) => ghe.maGhe === gheKD.maGhe
+      let classGheKhachDat = "";
+      const indexGheKD = danhSachGheKhachDangDat.findIndex(
+        (gheKD) => gheKD.maGhe === ghe.maGhe
       );
-      let classGheKD = "";
-      if (indexGheKhachDat !== -1) {
-        classGheKD = "gheKhachDangDat";
+      if (indexGheKD !== -1) {
+        classGheKhachDat = "gheKhachDat";
       }
 
       let classGheDD = "";
@@ -70,7 +74,7 @@ const Checkout = () => {
       return (
         <Fragment key={ghe.maGhe}>
           <button
-            disabled={ghe.daDat || classGheKD !== ""}
+            disabled={ghe.daDat || classGheKhachDat !== ""}
             onClick={() => {
               // dispatch(quanLyDatVeAction.datVe(ghe));
               dispatch(datGhe({ ghe: ghe, maLichChieu: Number(params.id) }));
@@ -82,7 +86,7 @@ const Checkout = () => {
               { gheDangDat: classGheDD !== "" },
               { gheDoMinhDat: classGheMinhDat !== "" },
               {
-                gheKhachDangDat: classGheKD !== "",
+                gheKhachDangDat: classGheKhachDat !== "",
               }
             )}
           >
@@ -92,7 +96,7 @@ const Checkout = () => {
               ) : (
                 <i className="fas fa-times"></i>
               )
-            ) : classGheKD !== "" ? (
+            ) : classGheKhachDat !== "" ? (
               <i className="fas fa-user-check"></i>
             ) : (
               ghe.stt
@@ -106,11 +110,53 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(getListPhongVe(Number(params.id)));
 
-    // Load danh sách ghế đang đặt từ server về
-    connection.on("loadDanhSachGheDaDat", (dsGheKhachDat) => {
-      console.log("dsGheKhachDat", dsGheKhachDat);
+    connection.on("datVeThanhCong", () => {
+      dispatch(getListPhongVe(Number(params.id)));
     });
+
+    // Vừa vào load lại những ghế người khác đặt
+    connection.invoke("loadDanhSachGhe", Number(params.id));
+
+    // Load danh sách ghế đang đặt từ server về
+    connection.on(
+      "loadDanhSachGheDaDat",
+      (dsGheKhachDat: DanhSachGheKhachDat[]) => {
+        // Loại bỏ mình ra khỏi danh sách
+        dsGheKhachDat = dsGheKhachDat.filter(
+          (item) => item.taiKhoan !== user?.taiKhoan
+        );
+
+        // Gộp danh sách ghế khách đặt tất cả user lại thành 1 mảng chung
+        let arrGheKD = dsGheKhachDat.reduce(
+          (result: DanhSachGhe[], item, index) => {
+            const arrGhe = JSON.parse(item.danhSachGhe);
+            return [...result, ...arrGhe];
+          },
+          []
+        );
+
+        // Đưa dữ liệu khách đặt lên redux
+        arrGheKD = _.uniqBy(arrGheKD, "maGhe");
+
+        // Đưa dữ liệu ghế khách đặt về redux
+        dispatch(quanLyDatVeAction.datGhe(arrGheKD));
+        console.log("dsGheKhachDat", dsGheKhachDat);
+        // console.log("arrGheKD", arrGheKD);
+
+        // Sự kiện reload trang
+        window.addEventListener("beforeunload", clearGhe);
+
+        return () => {
+          clearGhe();
+          window.removeEventListener("beforeunload", clearGhe);
+        };
+      }
+    );
   }, []);
+
+  const clearGhe = function (event?: any) {
+    connection.invoke("huyDat", user?.taiKhoan, Number(params.id));
+  };
   if (isFetchingDatVe) {
     return <Loading />;
   }
@@ -244,6 +290,11 @@ const Checkout = () => {
                   // Đặt vé thành công gọi lại api load lại phòng vé
                   await dispatch(getListPhongVe(Number(params.id)));
                   await dispatch(quanLyDatVeAction.datVeThanhCong());
+                  connection.invoke(
+                    "datGheThanhCong",
+                    user?.taiKhoan,
+                    Number(params.id)
+                  );
                   await dispatch(quanLyDatVeAction.chuyenTab());
                 }}
                 className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-[16px] px-5 py-2.5 text-center uppercase cursor-pointer"
@@ -260,20 +311,66 @@ const Checkout = () => {
 
 // export default Checkout;
 const Demo: React.FC = () => {
+  const navigate = useNavigate();
   const { tabActive } = useSelector((state: RootState) => {
     return state.quanLyDatVeReducer;
   });
+  const { user } = useSelector((state: RootState) => {
+    return state.quanLyNguoiDungReducer;
+  });
+
+  useEffect(() => {
+    dispatch(quanLyDatVeAction.changeTabActive("1"));
+  }, []);
+  const operations = (
+    <Fragment>
+      {!_.isEmpty(user) ? (
+        <Fragment>
+          <button
+            className="relative rounded px-3 py-3 mr-4 overflow-hidden group bg-[#ff3838] relative hover:bg-gradient-to-r hover:from-[#fb4848]hover:to-[#fb4848] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#fb4848] transition-all ease-out duration-300 "
+            onClick={() => navigate("/profile")}
+          >
+            <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+            <span className="relative flex items-center">
+              <div className="w-[35px] h-[35px] rounded-full bg-red-200 flex items-center justify-center mr-2">
+                {user.taiKhoan?.slice(0, 1)}
+              </div>
+              <div>Hello {user.taiKhoan} !</div>
+            </span>
+          </button>
+          <button
+            className="relative rounded px-3 py-3 mr-4 overflow-hidden group bg-[#ff3838] relative hover:bg-gradient-to-r hover:from-[#fb4848]hover:to-[#fb4848] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#fb4848] transition-all ease-out duration-300"
+            onClick={() => {
+              localStorage.removeItem(USER_LOGIN);
+              localStorage.removeItem(TOKEN);
+              window.location.reload();
+              navigate("/home");
+            }}
+          >
+            <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+            <span className="relative inline-block leading-[35px]">
+              Đăng xuất
+            </span>
+          </button>
+        </Fragment>
+      ) : (
+        ""
+      )}
+    </Fragment>
+  );
+
   const dispatch = useAppDispath();
   return (
     <div className="p-4">
       <Tabs
+        tabBarExtraContent={operations}
         activeKey={tabActive.toString()}
         destroyInactiveTabPane
         tabPosition={"top"}
         onChange={(key) => {
           dispatch(quanLyDatVeAction.changeTabActive(key));
         }}
-        items={new Array(2).fill(null).map((_, i) => {
+        items={new Array(3).fill(null).map((_, i) => {
           const id = String(i + 1);
           if (id === "1") {
             return {
@@ -281,11 +378,21 @@ const Demo: React.FC = () => {
               key: id,
               children: <Checkout />,
             };
-          } else {
+          } else if (id === "2") {
             return {
               label: `02 KẾT QUẢ ĐẶT VÉ`,
               key: id,
               children: <KetQuaDatVe />,
+            };
+          } else {
+            return {
+              label: (
+                <button onClick={() => navigate("/")} className="uppercase">
+                  <i className="fas fa-home"></i> Home
+                </button>
+              ),
+              key: id,
+              children: "",
             };
           }
         })}
@@ -362,24 +469,7 @@ const KetQuaDatVe = () => {
               Hãy xem thông tin địa điểm và thời gian để xem phim vui bạn nhé!
             </p>
           </div>
-          <div className="flex flex-wrap -m-2">
-            {renderTicket()}
-            <div className="p-2 lg:w-1/3 md:w-1/2 w-full">
-              <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
-                <img
-                  alt="team"
-                  className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                  src="https://dummyimage.com/80x80"
-                />
-                <div className="flex-grow">
-                  <h2 className="text-gray-900 title-font font-medium">
-                    Holden Caulfield
-                  </h2>
-                  <p className="text-gray-500">UI Designer</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="flex flex-wrap -m-2">{renderTicket()}</div>
         </div>
       </section>
     </div>

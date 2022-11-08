@@ -9,10 +9,11 @@ import noImages from "../../../assets/images/noImages.jpg";
 
 type ChilProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
   heThongRapChieu: LichChieuHeThongRap[];
+  homeMenuRef?: any;
 };
 
 type TabPosition = "left" | "right" | "top" | "bottom";
-const HomeMenu: React.FC<ChilProps> = ({ heThongRapChieu }) => {
+const HomeMenu: React.FC<ChilProps> = ({ heThongRapChieu, homeMenuRef }) => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
 
   const renderHeThongRap = () => {
@@ -71,7 +72,7 @@ const HomeMenu: React.FC<ChilProps> = ({ heThongRapChieu }) => {
                               .map((lichChieu) => {
                                 return (
                                   <NavLink
-                                    to={"/"}
+                                    to={`/checkout/${lichChieu.maLichChieu}`}
                                     className="text-[18px] text-green-400 hover:text-green-600"
                                     key={lichChieu.maLichChieu}
                                   >
@@ -96,13 +97,13 @@ const HomeMenu: React.FC<ChilProps> = ({ heThongRapChieu }) => {
     });
   };
   return (
-    <>
+    <div ref={homeMenuRef}>
       <Tabs
         tabPosition={tabPosition}
         items={renderHeThongRap()}
         destroyInactiveTabPane
       />
-    </>
+    </div>
   );
 };
 

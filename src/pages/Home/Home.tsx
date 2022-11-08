@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { HomeCarousel } from "../../components/Organisms";
@@ -19,6 +19,8 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams({
     isShowing: "false",
   });
+
+  const homeMenuRef = useRef<HTMLDivElement>();
 
   const phimSapChieu = () => {
     setSearchParams({ isShowing: "true" });
@@ -45,13 +47,14 @@ const Home = () => {
               phimSapChieu={phimSapChieu}
               phimDangChieu={phimDangChieu}
               isShowing={searchParams.get("isShowing") || ""}
+              homeMenuRef={homeMenuRef}
             />
           </div>
         </section>
 
         {/* End Home Item */}
 
-        <HomeMenu heThongRapChieu={heThongRapChieu} />
+        <HomeMenu heThongRapChieu={heThongRapChieu} homeMenuRef={homeMenuRef} />
       </div>
     </div>
   );

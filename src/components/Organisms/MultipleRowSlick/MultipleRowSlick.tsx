@@ -4,9 +4,11 @@ import { Phim } from "../../../types/quanLyPhimTypes";
 import CardFilm_Hover from "../../Molecules/CardFilm_Hover/CardFilm_Hover";
 import styleSlick from "./MultipleRowSlick.module.css";
 import cn from "classnames";
+import { useTranslation } from "react-i18next";
 
 type ChilProps = React.HTMLAttributes<HTMLDivElement> & {
   listMovie: Phim[];
+  homeMenuRef: any;
   phimSapChieu: () => void;
   phimDangChieu: () => void;
   isShowing?: string;
@@ -17,6 +19,7 @@ export const MultipleRowSlick: React.FC<ChilProps> = ({
   phimDangChieu,
   phimSapChieu,
   isShowing,
+  homeMenuRef,
 }) => {
   const renderPhim = () => {
     return listMovie
@@ -25,12 +28,12 @@ export const MultipleRowSlick: React.FC<ChilProps> = ({
         return (
           <div key={item.maPhim} className="mt-2">
             {/* <CardFilm phim={item} /> */}
-            <CardFilm_Hover phim={item} />
+            <CardFilm_Hover phim={item} homeMenuRef={homeMenuRef} />
           </div>
         );
       });
   };
-
+  const { t, i18n } = useTranslation();
   function SampleNextArrow(props: any) {
     const { className, style, onClick } = props;
     return (
@@ -85,7 +88,7 @@ export const MultipleRowSlick: React.FC<ChilProps> = ({
             { active: isShowing === "false" }
           )}
         >
-          Phim đang chiếu
+          {t("Now Showing")}
         </span>
       </button>
       <button
@@ -105,7 +108,7 @@ export const MultipleRowSlick: React.FC<ChilProps> = ({
             { active: isShowing === "true" }
           )}
         >
-          Phim sắp chiếu
+          {t("Comming Soon")}
         </span>
       </button>
       <Slider {...settings}>{renderPhim()}</Slider>
