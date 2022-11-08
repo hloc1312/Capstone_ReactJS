@@ -16,7 +16,7 @@ interface DatGhe {
 interface InitialState {
   chiTietPhongVe: DanhSachGheVaPhim | undefined;
   danhSachGheDangDat: DanhSachGhe[];
-  danhSachGheKhachDangDat?: DanhSachGhe[];
+  danhSachGheKhachDangDat: DanhSachGhe[];
   isFetching: boolean;
   err: any;
   errDatVe?: any;
@@ -96,6 +96,10 @@ export const { reducer: quanLyDatVeReducer, actions: quanLyDatVeAction } =
       changeTabActive: (state, action) => {
         state.tabActive = action.payload;
       },
+      datGhe: (state, action) => {
+        console.log(action.payload);
+        state.danhSachGheKhachDangDat = action.payload;
+      },
     },
     extraReducers: (builder) => {
       builder
@@ -164,9 +168,9 @@ export const datGhe = createAsyncThunk(
     let state = getState() as RootState;
     let danhSachGheDangDat = state.quanLyDatVeReducer.danhSachGheDangDat;
     let taiKhoan = state.quanLyNguoiDungReducer.user?.taiKhoan;
-    console.log({ danhSachGheDangDat });
-    console.log({ taiKhoan });
-    console.log({ maLichChieu });
+    // console.log({ danhSachGheDangDat });
+    // console.log({ taiKhoan });
+    // console.log({ maLichChieu });
 
     // Biến mảng thành chuỗi
     const dsGheString = JSON.stringify(danhSachGheDangDat);
@@ -175,8 +179,3 @@ export const datGhe = createAsyncThunk(
     connection.invoke("datGhe", taiKhoan, dsGheString, maLichChieu);
   }
 );
-export const datGheAction = (ghe: DanhSachGhe, maLichChieu: number) => {
-  return async (dispatch: any, getState: any) => {
-    await dispatch(quanLyDatVeAction.datVe(ghe));
-  };
-};

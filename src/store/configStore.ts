@@ -8,12 +8,14 @@ import { carouselReducer, quanLyPhimReducer } from "./quanLyPhim";
 import { quanLyRapReducer } from "./quanLyRap";
 
 import { quanLyDatVeReducer } from "./quanLyDatVe";
+import { scrollHomeMenuReducer } from "./scrollHomeMenu";
 const rootReducers = combineReducers({
   carouselReducer,
   quanLyPhimReducer,
   quanLyNguoiDungReducer,
   quanLyRapReducer,
   quanLyDatVeReducer,
+  scrollHomeMenuReducer,
 });
 
 export const store = configureStore({

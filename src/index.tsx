@@ -14,6 +14,10 @@ import "slick-carousel/slick/slick-theme.css";
 
 //Cấu hình realtime (websocket với signalR)
 import * as signalR from "@microsoft/signalr";
+
+// import í8next
+import "./i18n";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

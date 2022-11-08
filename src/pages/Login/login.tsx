@@ -34,8 +34,7 @@ const Login = () => {
     },
     validationSchema: Yup.object({
       taiKhoan: Yup.string().required("Tài khoản không được bỏ trống"),
-      matKhau: Yup.string()
-      .required("Mật khẩu không được bỏ trống"),
+      matKhau: Yup.string().required("Mật khẩu không được bỏ trống"),
     }),
     // validate: (values: FormValues) => {
     //   const error: FormikErrors<FormValues> = {};
