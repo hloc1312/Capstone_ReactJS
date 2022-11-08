@@ -32,13 +32,6 @@ const Profile = () => {
         maNhom: thongTinNguoiDung?.maNhom,
         maLoaiNguoiDung: thongTinNguoiDung?.maLoaiNguoiDung,
         hoTen: thongTinNguoiDung?.hoTen,
-        // taiKhoan: "",
-        // matKhau: "",
-        // email: "",
-        // soDt: "",
-        // maNhom: "",
-        // maLoaiNguoiDung: "",
-        // hoTen: "",
       },
       onSubmit: values => {
         console.log("values: ", values);
@@ -113,5 +106,4 @@ const Profile = () => {
       </form>
   )
 }
-
 export default Profile
