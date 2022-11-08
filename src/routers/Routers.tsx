@@ -8,8 +8,10 @@ import Checkout from "../pages/Checkout/Checkout";
 import Contact from "../pages/Contact/Contact";
 import Detail from "../pages/Detail/Detail";
 import Home from "../pages/Home/Home";
-import Login from "../pages/Login/Login";
+import Login from "../pages/Login/login";
+
 import News from "../pages/News/News";
+import Profile from "../pages/Profile/Profile";
 
 const CheckoutTemplateLazy = lazy(
   () => import("../components/Layouts/CheckoutTemplate/CheckoutTemplate")
@@ -129,6 +131,10 @@ const Routers = () => {
         },
       ],
     },
+    {
+      path: '/profile',
+      element: <Profile/>
+    }
   ]);
   return routing;
 };

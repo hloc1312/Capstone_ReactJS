@@ -15,7 +15,16 @@ import {
 } from "../../utils/localStore";
 import ReactPlayer from "react-player";
 type TabPosition = "left";
-const Detail = () => {
+
+type CustomCardProps = React.HTMLAttributes<HTMLDivElement> &{
+  borderRadius?: number;
+  blur?: number;
+  color?: string;
+  effectColor?: string;
+  content?: HTMLElement;
+  
+}
+const Detail = (props: CustomCardProps) => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const { filmDetail } = useSelector((state: RootState) => {
     return state.quanLyPhimReducer;
@@ -59,6 +68,7 @@ const Detail = () => {
         color="#000" // default color is white
         blur={6} // default blur value is 10px
         borderRadius={0} // default border radius value is 10px
+        {...props as any}
       >
         <div className="grid grid-cols-12">
           <div className="col-span-5 col-start-3">
