@@ -30,7 +30,7 @@ const Home = () => {
   };
   const dispatch = useAppDispath();
   useEffect(() => {
-    dispatch(getListMovie());
+    dispatch(getListMovie(""));
     dispatch(getListHeThongRapChieu());
   }, []);
 

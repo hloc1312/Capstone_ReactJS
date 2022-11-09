@@ -9,10 +9,7 @@ import {
 import { RootState } from "../configStore";
 
 type PayloadDatVe = PayloadAction<DanhSachGhe>;
-interface DatGhe {
-  ghe: DanhSachGhe;
-  maLichChieu: number;
-}
+
 interface InitialState {
   chiTietPhongVe: DanhSachGheVaPhim | undefined;
   danhSachGheDangDat: DanhSachGhe[];

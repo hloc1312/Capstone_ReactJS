@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { Select } from "antd";
 import EN from "../../../assets/images/en.png";
 import VI from "../../../assets/images/vi.png";
@@ -47,6 +47,22 @@ export const Header = () => {
             <div>Hello {user.taiKhoan} !</div>
           </span>
         </button>
+        {user.maLoaiNguoiDung === "QuanTri" ? (
+          <NavLink
+            to="/admin"
+            className="hover:text-white rounded px-8 py-3 mr-4 overflow-hidden group bg-[#ff3838] relative hover:bg-gradient-to-r hover:from-[#fb4848]hover:to-[#fb4848] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#fb4848] transition-all ease-out duration-300"
+            // onClick={() => {
+            //   return <Navigate to={"/admin"} />;
+            // }}
+          >
+            <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+            <span className="relative inline-block leading-[35px]">
+              Vào trang admin
+            </span>
+          </NavLink>
+        ) : (
+          ""
+        )}
         <button
           // to="/profile"
           className="relative rounded px-8 py-3 mr-4 overflow-hidden group bg-[#ff3838] relative hover:bg-gradient-to-r hover:from-[#fb4848]hover:to-[#fb4848] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#fb4848] transition-all ease-out duration-300"

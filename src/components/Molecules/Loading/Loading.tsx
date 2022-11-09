@@ -3,7 +3,7 @@ import React from "react";
 const Loading = () => {
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full flex justify-center items-center"
+      className="fixed z-20 top-0 left-0 w-full h-full flex justify-center items-center"
       style={{ backgroundColor: " rgba(0,0,0,0.5)" }}
     >
       <div role="status">

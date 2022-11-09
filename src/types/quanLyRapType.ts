@@ -111,3 +111,14 @@ interface LichChieuPhimType {
   giaVe: number;
   thoiLuong: number;
 }
+
+export interface ThongTinCumRap {
+  maCumRap: string;
+  tenCumRap: string;
+  diaChi: string;
+  danhSachRap: DanhSachRap[];
+}
+interface DanhSachRap {
+  maRap: number;
+  tenRap: string;
+}

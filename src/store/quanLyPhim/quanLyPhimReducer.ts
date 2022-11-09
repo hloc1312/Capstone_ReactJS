@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { quanLyPhimService } from "../../services/quanLyPhimService";
-import { Phim } from "../../types/quanLyPhimTypes";
+import {
+  GetThongTinPhim,
+  Phim,
+  ThemPhimUploadHinh,
+} from "../../types/quanLyPhimTypes";
 import { LichChieuTheoPhim } from "../../types/quanLyRapType";
 import { getListLichChieuTheoPhim } from "../quanLyRap";
 
@@ -10,6 +14,16 @@ interface InitialState {
   isFetchingDetail: boolean;
   err: any;
   filmDetail?: LichChieuTheoPhim;
+  errDetail: any;
+  isFetchingThemPhim: boolean;
+  errThemPhim: any;
+  thongTinPhim?: GetThongTinPhim;
+  isFetchingThongTinPhim: boolean;
+  errThongTinPhim: any;
+  isFetchingUploadPhim: boolean;
+  errUploadPhim: any;
+  isFetchingDelete: boolean;
+  errDelete: any;
 }
 
 const initialState: InitialState = {
@@ -64,6 +78,15 @@ const initialState: InitialState = {
   err: "",
 
   isFetchingDetail: false,
+  errDetail: "",
+  isFetchingThemPhim: false,
+  errThemPhim: "",
+  isFetchingThongTinPhim: false,
+  errThongTinPhim: "",
+  isFetchingUploadPhim: false,
+  errUploadPhim: "",
+  isFetchingDelete: false,
+  errDelete: "",
 };
 export const { reducer: quanLyPhimReducer, actions: quanLyPhimActions } =
   createSlice({
@@ -93,15 +116,112 @@ export const { reducer: quanLyPhimReducer, actions: quanLyPhimActions } =
         })
         .addCase(getListLichChieuTheoPhim.rejected, (state, action) => {
           state.isFetchingDetail = false;
+          state.errDetail = action.payload;
+        })
+        // Thêm Phim
+        .addCase(themPhimUploadHinh.pending, (state, action) => {
+          state.isFetchingThemPhim = true;
+        })
+        .addCase(themPhimUploadHinh.fulfilled, (state, action) => {
+          state.isFetchingThemPhim = false;
+        })
+        .addCase(themPhimUploadHinh.rejected, (state, action) => {
+          state.isFetchingThemPhim = false;
+          state.errThemPhim = action.payload;
+        })
+        // Lấy thông tin phim
+        .addCase(getThongTinPhim.pending, (state, action) => {
+          state.isFetchingThongTinPhim = true;
+        })
+        .addCase(getThongTinPhim.fulfilled, (state, action) => {
+          state.isFetchingThongTinPhim = false;
+          state.thongTinPhim = action.payload;
+        })
+        .addCase(getThongTinPhim.rejected, (state, action) => {
+          state.isFetchingThongTinPhim = false;
+          state.errThemPhim = action.payload;
+        })
+        // Cập nhật thông tin phim
+        .addCase(capNhatPhimUpload.pending, (state, action) => {
+          state.isFetchingUploadPhim = true;
+        })
+        .addCase(capNhatPhimUpload.fulfilled, (state, action) => {
+          state.errUploadPhim = "";
+          state.isFetchingUploadPhim = false;
+        })
+        .addCase(capNhatPhimUpload.rejected, (state, action) => {
+          state.isFetchingUploadPhim = false;
+          state.errUploadPhim = action.payload;
+        })
+        // Xóa phim
+        .addCase(xoaPhim.pending, (state, action) => {
+          state.isFetchingDelete = true;
+        })
+        .addCase(xoaPhim.fulfilled, (state, action) => {
+          state.errDelete = "";
+          state.isFetchingDelete = false;
+        })
+        .addCase(xoaPhim.rejected, (state, action) => {
+          state.isFetchingDelete = false;
+          state.errDelete = action.payload;
         });
     },
   });
 
 export const getListMovie = createAsyncThunk(
   "quanLyPhim/getListMovie",
-  async (data, { dispatch, getState, rejectWithValue }) => {
+  async (tenPhim: string, { dispatch, getState, rejectWithValue }) => {
     try {
-      const result = await quanLyPhimService.getListMovie();
+      const result = await quanLyPhimService.getListMovie(tenPhim);
+      return result.data.content;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+export const themPhimUploadHinh = createAsyncThunk(
+  "quanLyPhim/themPhimUploadHinh",
+  async (formData: FormData, { rejectWithValue }) => {
+    try {
+      const result = await quanLyPhimService.themPhimUploadHinh(formData);
+      return result.data.content;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const getThongTinPhim = createAsyncThunk(
+  "quanLyPhim/getThongTinPhim",
+  async (maPhim: number, { rejectWithValue }) => {
+    try {
+      const result = await quanLyPhimService.getThongTinPhim(maPhim);
+      return result.data.content;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const capNhatPhimUpload = createAsyncThunk(
+  "quanLyPhim/capNhatPhimUpload",
+  async (formData: FormData, { dispatch, rejectWithValue }) => {
+    try {
+      const result = await quanLyPhimService.capNhatPhimUpload(formData);
+      await dispatch(getListMovie(""));
+      return result.data.content;
+    } catch (err: any) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const xoaPhim = createAsyncThunk(
+  "quanLyPhim/xoaPhim",
+  async (maPhim: number, { dispatch, rejectWithValue }) => {
+    try {
+      const result = await quanLyPhimService.xoaPhim(maPhim);
+      dispatch(getListMovie(""));
       return result.data.content;
     } catch (err: any) {
       return rejectWithValue(err.response.data);

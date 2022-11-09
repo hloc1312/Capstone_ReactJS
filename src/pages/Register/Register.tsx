@@ -6,12 +6,15 @@ import * as Yup from "yup";
 import { dangKyAction } from "../../store/quanLyNguoiDung";
 import { RootState, useAppDispath } from "../../store/configStore";
 import { useSelector } from "react-redux";
+import Loading from "../../components/Molecules/Loading/Loading";
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispath();
-  const { errRegister } = useSelector((state: RootState) => {
-    return state.quanLyNguoiDungReducer;
-  });
+  const { errRegister, isFetchingRegister } = useSelector(
+    (state: RootState) => {
+      return state.quanLyNguoiDungReducer;
+    }
+  );
   const phoneRegExp = /^(84|0[3|5|7|8|9])+([0-9]{8})\b$/;
   const formik = useFormik({
     initialValues: {
@@ -39,12 +42,15 @@ const Register = () => {
     }),
     onSubmit: (values) => {
       console.log("values: ", values);
-
+      formik.setFieldValue("maNhom", "GP13");
       dispatch(dangKyAction(values))
         .unwrap()
         .then(() => navigate("/user/login"));
     },
   });
+  if (isFetchingRegister) {
+    return <Loading />;
+  }
   return (
     <div className="lg:w-1/2 xl:max-w-screen-sm lg:overflow-y-scroll lg:h-screen">
       <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">

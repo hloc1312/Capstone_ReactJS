@@ -10,10 +10,12 @@ import Contact from "../pages/Contact/Contact";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Detail from "../pages/Detail/Detail";
 import AddFilm from "../pages/Films/AddFilm/AddFilm";
+import EditFilm from "../pages/Films/EditFilm/EditFilm";
 import Films from "../pages/Films/Films";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import News from "../pages/News/News";
+import Profile from "../pages/Profile/Profile";
 import Register from "../pages/Register/Register";
 import ShowTime from "../pages/ShowTime/ShowTime";
 
@@ -78,6 +80,10 @@ const Routers = () => {
         {
           path: "detail/:id",
           element: <Detail />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
         },
       ],
     },
@@ -159,9 +165,12 @@ const Routers = () => {
           path: "films/addfilm",
           element: <AddFilm />,
         },
-
         {
-          path: "showtimes",
+          path: "films/editfilm/:id",
+          element: <EditFilm />,
+        },
+        {
+          path: "films/showtimes/:id",
           element: <ShowTime />,
         },
       ],

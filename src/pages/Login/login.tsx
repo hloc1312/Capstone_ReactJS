@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../store/quanLyNguoiDung";
 import _ from "lodash";
 import * as Yup from "yup";
+import Loading from "../../components/Molecules/Loading/Loading";
 
 // import { quanLyNguoiDungReducer } from '../../redux/reducers/quanLyNguoiDungReducer';
 interface FormValues {
@@ -17,7 +18,7 @@ interface FormValues {
 const Login = () => {
   const dispatch = useAppDispath();
 
-  const { user, err } = useSelector(
+  const { user, err, isFetching } = useSelector(
     (state: RootState) => state.quanLyNguoiDungReducer
   );
 
@@ -44,7 +45,9 @@ const Login = () => {
     //   return error;
     // },
   });
-  console.log(formik.errors);
+  if (isFetching) {
+    return <Loading />;
+  }
   return (
     <div className="lg:w-1/2 xl:max-w-screen-sm">
       <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">

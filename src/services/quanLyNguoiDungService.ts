@@ -1,6 +1,7 @@
 import { api } from "../constants/api";
 import {
   GetThongTinNguoiDung,
+  ThongTinNguoiDung,
   User,
   UserLogin,
   UserRegister,
@@ -30,6 +31,12 @@ export const quanLyNguoiDungService = {
     return api.post<HttpResponse<UserRegister>>(
       `QuanLyNguoiDung/DangKy`,
       thongTinNguoiDung
+    );
+  },
+
+  postLayThongTinNguoiDung: (taiKhoan: string) => {
+    return api.post<HttpResponse<ThongTinNguoiDung>>(
+      `QuanLyNguoiDung/LayThongTinNguoiDung?taiKhoan=${taiKhoan}`
     );
   },
 };

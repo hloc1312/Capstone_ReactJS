@@ -2,7 +2,7 @@ import { Breadcrumb, Layout, Menu } from "antd";
 import _ from "lodash";
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { RootState } from "../../../store/configStore";
 import { TOKEN, USER_LOGIN } from "../../../utils/config";
 import {
@@ -14,19 +14,12 @@ import {
 } from "@ant-design/icons";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
+
 const AdminTemplate = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => {
     return state.quanLyNguoiDungReducer;
   });
-  if (!localStorage.getItem(USER_LOGIN)) {
-    alert("Bạn không có quyền truy cập trang này!");
-    navigate("/");
-  }
-  if (user?.maLoaiNguoiDung !== "QuanTri") {
-    alert("Bạn không có quyền truy cập trang này!");
-    navigate("/");
-  }
 
   const [collapsed, setCollapsed] = useState(false);
 
@@ -54,10 +47,10 @@ const AdminTemplate = () => {
           <button
             className="relative rounded px-3 py-3 mr-4 overflow-hidden group bg-[#ff3838]  hover:bg-gradient-to-r hover:from-[#fb4848]hover:to-[#fb4848] text-white hover:ring-2 hover:ring-offset-2 hover:ring-[#fb4848] transition-all ease-out duration-300"
             onClick={() => {
+              navigate("/home");
               localStorage.removeItem(USER_LOGIN);
               localStorage.removeItem(TOKEN);
               window.location.reload();
-              navigate("/home");
             }}
           >
             <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease "></span>
@@ -74,21 +67,41 @@ const AdminTemplate = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   });
+  if (!localStorage.getItem(USER_LOGIN)) {
+    // alert("Bạn không có quyền truy cập trang này!");
+    return <Navigate to="/home"></Navigate>;
+  }
+  if (user?.maLoaiNguoiDung !== "QuanTri") {
+    // alert("Bạn không có quyền truy cập trang này!");
+    return <Navigate to="/home"></Navigate>;
+  }
   return (
     <div>
       <Fragment>
         <Layout style={{ minHeight: "100vh" }}>
           <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-            <div className="logo p-5">
+            <div
+              className="logo p-5 cursor-pointer"
+              onClick={() => navigate("/home")}
+            >
               <img
                 src="https://cyberlearn.vn/wp-content/uploads/2020/03/cyberlearn-min-new-opt2.png"
                 alt="..."
               />
             </div>
             <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-              <Menu.Item key="1" icon={<UserOutlined />}>
+              {/* <Menu.Item key="1" icon={<UserOutlined />}>
                 <NavLink to="/admin/users">Users</NavLink>
-              </Menu.Item>
+              </Menu.Item> */}
+              <SubMenu key="sub2" icon={<UserOutlined />} title="User">
+                <Menu.Item key="20" icon={<UserOutlined />}>
+                  <NavLink to="/admin/users">Users</NavLink>
+                </Menu.Item>
+                <Menu.Item key="21" icon={<FileOutlined />}>
+                  <NavLink to="/admin/users/adduser">Add user</NavLink>
+                </Menu.Item>
+              </SubMenu>
+
               <SubMenu key="sub1" icon={<FileOutlined />} title="Films">
                 <Menu.Item key="10" icon={<FileOutlined />}>
                   <NavLink to="/admin/films">Films</NavLink>
@@ -97,9 +110,9 @@ const AdminTemplate = () => {
                   <NavLink to="/admin/films/addfilm">Add new</NavLink>
                 </Menu.Item>
               </SubMenu>
-              <Menu.Item key="3" icon={<DesktopOutlined />}>
+              {/* <Menu.Item key="3" icon={<DesktopOutlined />}>
                 <NavLink to="/admin/showtimes">Showtime</NavLink>
-              </Menu.Item>
+              </Menu.Item> */}
               {/* <SubMenu key="sub1" icon={<UserOutlined />} title="User">
                             <Menu.Item key="3">Tom</Menu.Item>
                             <Menu.Item key="4">Bill</Menu.Item>

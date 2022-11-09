@@ -43,3 +43,9 @@ export interface DanhSachVeType {
   maGhe: number;
   giaVe: number;
 }
+export interface TaoLichChieu {
+  giaVe: number;
+  maPhim: number;
+  maRap: string;
+  ngayChieuGioChieu: string;
+}
